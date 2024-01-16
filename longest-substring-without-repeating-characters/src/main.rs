@@ -1,6 +1,16 @@
 use std::{char, collections::HashMap};
 
-pub fn length_of_longest_substring(s: String) -> i32 {
+///  Check each character of the string's existence in the HashMap
+///
+///  If a duplicate character was found
+///      Flush the HashMap from the existing duplicate
+///      to the beginning
+///
+///      Insert the character into HashMap
+///
+///  keeping checking the length of the HashMap
+///  and find the max
+fn length_of_longest_substring(s: String) -> i32 {
     let mut max: i32 = 0;
     let mut char_map: HashMap<char, i32> = HashMap::new();
 
