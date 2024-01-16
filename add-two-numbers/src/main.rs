@@ -32,6 +32,15 @@ impl ListNode {
     }
 }
 
+/// If a double digit occurs (e.g. 1 + 9 = 10)
+/// We use modulate to find the left_over (i.e. 0)
+/// Assigned the carry_over to 1.
+///
+/// Loop as long one of the linklist has next node
+///     and carry_over = 1
+/// We add the carry_over with the val in both linked list.
+/// If one linkedlist ran out of nodes assume the node's val is 0.
+///
 pub fn add_two_numbers(
     l1: Option<Box<ListNode>>,
     l2: Option<Box<ListNode>>,
