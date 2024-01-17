@@ -1,5 +1,4 @@
 fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
-    let middle;
     let mut middles = vec![];
     let mut final_vec: Vec<i32> = vec![];
 
@@ -14,6 +13,7 @@ fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
     } else if nums2.is_empty() {
         is_end_of_num2 = true;
     }
+
     // Uneven vector walk.
     // Move element of a vector 1 counter further
     // The element is choicen between elements from two vectors
@@ -49,15 +49,15 @@ fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
         middles.push((nums1.len() + nums2.len()) / 2);
 
         // Return the average
-        (final_vec[middles[0]] as f64 + final_vec[middles[1]] as f64) / 2.0
-    } else {
-        // Odd number of elements
-        // Find the location of the medium element
-        middle = (nums1.len() + nums2.len()) / 2;
-
-        // Return the average
-        final_vec[middle] as f64
+        return (final_vec[middles[0]] as f64 + final_vec[middles[1]] as f64) / 2.0;
     }
+
+    // Odd number of elements
+    // Find the location of the medium element
+    let middle = (nums1.len() + nums2.len()) / 2;
+
+    // Return the average
+    final_vec[middle] as f64
 }
 
 fn main() {
