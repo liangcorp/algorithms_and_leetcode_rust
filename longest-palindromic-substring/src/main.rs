@@ -1,38 +1,37 @@
-fn is_palindrome(s: &str) -> bool {
-    let str_vec: Vec<char> = s.chars().collect();
-
-    for x in 0..str_vec.len() {
-        if str_vec[x] != str_vec[str_vec.len() - x - 1] {
+fn is_str_palindrome(s: &str) -> bool {
+    for i in 0..s.len() {
+        if s.as_bytes()[i] != s.as_bytes()[s.len() - i - 1] {
             return false;
         }
     }
+
     true
 }
 
 fn longest_palindrome(s: String) -> String {
-    let mut max = 0;
-    let mut result_str = String::new();
-    let mut y;
+    let mut slice_start;
+    let mut slice_end;
 
-    for x in 0..s.len() {
-        y = x;
-        while y < s.len() + 1 {
-            if is_palindrome(&s.as_str()[x..y]) && max < y - x {
-                max = y - x;
-                result_str = s.as_str()[x..y].to_string();
+    for i in 0..s.len() {
+        slice_start = 0;
+        slice_end = s.len() - i;
+
+        while slice_end != s.len() + 1 {
+            if is_str_palindrome(&s.as_str()[slice_start..slice_end]) {
+                return s.as_str()[slice_start..slice_end].to_string();
             }
-            y += 1;
+            slice_start += 1;
+            slice_end += 1;
         }
     }
-
-    result_str
+    String::from("fail")
 }
 
 fn main() {
-    // println!("{}", longest_palindrome(String::from("babad")));
-    // println!("{}", longest_palindrome(String::from("cbbd")));
-    // println!("{}", longest_palindrome(String::from("a")));
-    // println!("{}", longest_palindrome(String::from("abb")));
-    // println!("{}", longest_palindrome(String::from("bb")));
+    println!("{}", longest_palindrome(String::from("babad")));
+    println!("{}", longest_palindrome(String::from("cbbd")));
+    println!("{}", longest_palindrome(String::from("a")));
+    println!("{}", longest_palindrome(String::from("abb")));
+    println!("{}", longest_palindrome(String::from("bb")));
     println!("{}", longest_palindrome(String::from("aacabdkacaa")));
 }
