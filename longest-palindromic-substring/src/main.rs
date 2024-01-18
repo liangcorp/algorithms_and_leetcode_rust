@@ -1,4 +1,7 @@
 fn is_str_palindrome(s: &str) -> bool {
+    // Simple check for panidrome
+    // Loop from end to center
+    // Check charaters from end to center
     for i in 0..s.len() {
         if s.as_bytes()[i] != s.as_bytes()[s.len() - i - 1] {
             return false;
@@ -13,6 +16,7 @@ fn longest_palindrome(s: String) -> String {
     let mut slice_end;
 
     for i in 0..s.len() {
+        // Slice the strings from the longest to the shortest
         slice_start = 0;
         slice_end = s.len() - i;
 
