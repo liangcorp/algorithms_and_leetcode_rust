@@ -30,7 +30,11 @@ mod tests {
         assert_eq!("aca", manacher_fs(String::from("aacabdkacaa")));
         assert_eq!("bab", manacher_fs(String::from("babad")));
         assert_eq!("bb", manacher_fs(String::from("cbbd")));
+        assert_eq!("bb", manacher_fs(String::from("abb")));
+        assert_eq!("bb", manacher_fs(String::from("cbbd")));
         assert_eq!("aaaaa", manacher_fs(String::from("aaaaa")));
         assert_eq!("aaaa", manacher_fs(String::from("aaaa")));
+        assert_eq!("a", manacher_fs(String::from("a")));
+        assert_eq!("ccc", manacher_fs(String::from("ccc")));
     }
 }

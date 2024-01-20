@@ -1,59 +1,61 @@
 pub fn find_string(s: String) -> String {
     let mut new_s: Vec<char>;
 
-    if s.len() % 2 == 0 {
-        // Make the string with odd length
-        // Insert '#' and beginning, end and inbetween every charater in the string
-        new_s = Vec::from_iter(s.chars())
-            .into_iter()
-            .flat_map(|x| ['#', x])
-            .collect();
-        new_s.push('#');
-    } else {
-        new_s = Vec::from_iter(s.chars());
-    }
+    //  expend the string with '#'
+    new_s = Vec::from_iter(s.chars())
+        .into_iter()
+        .flat_map(|x| ['#', x])
+        .collect();
+    new_s.push('#');
+    new_s.push('$');
+    new_s.insert(0, '@');
 
-    let mut left = 0;
-    let mut right = 0;
-    let mut center = 0;
-    let mut radius;
+    let mut p_radii = vec![0; new_s.len()];
 
-    while right < new_s.len() {
-        radius = 0;
+    let mut c = 1; // center of palnidormic
+    let mut r = 0; // right limit of palnidormic
+    let mut i_mirror;
 
-        // Keep expending the radius from center character as long as two char matches
-        while center + radius < new_s.len() && new_s[center - radius] == new_s[center + radius] {
-            radius += 1;
+    for i in 1..(new_s.len() - 1) {
+        // find the corresponding letter in the palidrome subString
+        i_mirror = c - (i - c);
 
-            // Hit the end of string
-            if radius > center {
-                break;
+        if r > i {
+            p_radii[i] = if r - i < p_radii[i_mirror] {
+                r - i
+            } else {
+                p_radii[i_mirror]
             }
         }
 
-        if center - radius - 1 < 0 {
-            left = 0
-        } else {
-            left = center - radius - 1;
+        // expanding around c i
+        while new_s[i + 1 + p_radii[i]] == new_s[i - 1 - p_radii[i]] {
+            p_radii[i] += 1;
         }
-        right = center + radius + 1;
 
-        // Use the next char as center
-        center = right;
+        // Update c,r in case if the palindrome ced at i expands past r,
+        if (i + p_radii[i]) > r {
+            c = i; // next c = i
+            r = i + p_radii[i];
+        }
     }
 
+    let mut max_index = 0;
+    let mut max_radius = 0;
+
+    for (i, &m) in p_radii.iter().enumerate() {
+        if max_radius < m {
+            max_radius = m;
+            max_index = i;
+        }
+    }
     // Find the longest palindromic substring using index of character
     //      with the max palindromic radius
     // Filter out the '#'
-    let result_sv: Vec<&char> = if s.len() % 2 == 0 {
-        new_s.as_slice()[left..right]
-            .iter()
-            .filter(|x| **x != '#')
-            .collect()
-    } else {
-        new_s.as_slice()[left..right].iter().collect()
-    };
+    let result_sv: Vec<&char> = new_s.as_slice()[max_index - max_radius..max_index + max_radius]
+        .iter()
+        .filter(|x| **x != '#')
+        .collect();
 
-    println!("{:?}", result_sv);
     String::from_iter(result_sv)
 }
