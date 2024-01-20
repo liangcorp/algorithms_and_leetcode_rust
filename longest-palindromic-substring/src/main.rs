@@ -51,9 +51,7 @@ fn longest_palindrome_center(s: String) -> String {
     while center < new_s.len() {
         radius = 0;
 
-        while center + radius < new_s.len()
-            && new_s[center - radius] == new_s[center + radius]
-        {
+        while center + radius < new_s.len() && new_s[center - radius] == new_s[center + radius] {
             radius += 1;
 
             if radius > center {
@@ -72,7 +70,7 @@ fn longest_palindrome_center(s: String) -> String {
     //     center,
     //     &s.as_str()[center - radius - 1..center + radius]
     // );
-    s.as_str()[center/2 - radius/2..center/2 + radius/2].to_string()
+    s.as_str()[center / 2 - radius / 2..center / 2 + radius / 2].to_string()
 }
 
 fn main() {
