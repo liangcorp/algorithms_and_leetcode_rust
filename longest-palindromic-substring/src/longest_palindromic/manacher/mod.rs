@@ -14,17 +14,17 @@ pub fn find_string(s: String) -> String {
 
     let mut c = 1; // center of palnidormic
     let mut r = 0; // right limit of palnidormic
-    let mut i_mirror;
+    let mut l; // left limit of palanidromic
 
     for i in 1..(new_s.len() - 1) {
         // find the corresponding letter in the palidrome subString
-        i_mirror = c - (i - c);
+        l = c - (i - c);
 
         if r > i {
-            p_radii[i] = if r - i < p_radii[i_mirror] {
+            p_radii[i] = if r - i < p_radii[l] {
                 r - i
             } else {
-                p_radii[i_mirror]
+                p_radii[i]
             }
         }
 
