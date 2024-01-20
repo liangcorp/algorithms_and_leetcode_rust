@@ -4,6 +4,7 @@ use std::time::SystemTime;
 
 use longest_palindromic::brute::find_string as brute;
 use longest_palindromic::center::find_string as center;
+use longest_palindromic::manacher::find_string as manacher;
 
 fn main() {
     // println!("{}", center(String::from("babad")));
@@ -22,6 +23,14 @@ fn main() {
 
     let now = SystemTime::now();
     println!("{}", brute(String::from("aacabdkacaa")));
+
+    match now.elapsed() {
+        Ok(elapsed) => println!("Brute force method in nano seconds: {}", elapsed.as_nanos()),
+        Err(e) => println!("Error: {e:?}"),
+    }
+
+    let now = SystemTime::now();
+    println!("{}", manacher(String::from("aacabdkacaa")));
 
     match now.elapsed() {
         Ok(elapsed) => println!("Brute force method in nano seconds: {}", elapsed.as_nanos()),
