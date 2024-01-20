@@ -6,9 +6,10 @@ pub fn find_string(s: String) -> String {
         .collect();
     new_s.push('#');
 
-    let mut palindrom_radii = vec![0; new_s.len()];
     let mut center = 0;
     let mut radius;
+    let mut max_radius = 0;
+    let mut max_index = 0;
 
     while center < new_s.len() {
         radius = 0;
@@ -23,21 +24,14 @@ pub fn find_string(s: String) -> String {
             }
         }
 
-        // Store the palindromic radius in the vector
-        palindrom_radii[center] = radius;
+        // Store the index of character with max palindromic radius
+        if max_radius < radius {
+            max_radius = radius;
+            max_index = center;
+        }
 
         // Use the next char as center
         center += 1;
-    }
-
-    let mut max_radius = 0;
-    let mut max_index = 0;
-
-    for (i, m) in palindrom_radii.iter().enumerate() {
-        if max_radius < *m {
-            max_radius = *m;
-            max_index = i;
-        }
     }
 
     // Find the longest palindromic substring using index of character
