@@ -30,7 +30,7 @@ pub fn find_string(s: String) -> String {
     }
 
     center = *palindrom_radii.iter().max().unwrap();
-    println!("{:?}, center {}", palindrom_radii, center);
+    // println!("{:?}, center {}", palindrom_radii, center);
     // println!(
     //     " result {}, char {}",
     //     center,
