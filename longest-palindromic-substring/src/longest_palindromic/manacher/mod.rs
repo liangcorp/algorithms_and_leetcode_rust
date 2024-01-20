@@ -1,17 +1,24 @@
 pub fn find_string(s: String) -> String {
-    // Insert '#' and beginning, end and inbetween every charater in the string
-    let mut new_s: Vec<char> = Vec::from_iter(s.chars())
-        .into_iter()
-        .flat_map(|x| ['#', x])
-        .collect();
-    new_s.push('#');
+    let mut new_s: Vec<char>;
 
+    if s.len() % 2 == 0 {
+        // Make the string with odd length
+        // Insert '#' and beginning, end and inbetween every charater in the string
+        new_s = Vec::from_iter(s.chars())
+            .into_iter()
+            .flat_map(|x| ['#', x])
+            .collect();
+        new_s.push('#');
+    } else {
+        new_s = Vec::from_iter(s.chars());
+    }
+
+    let mut left = 0;
+    let mut right = 0;
     let mut center = 0;
     let mut radius;
-    let mut max_radius = 0;
-    let mut max_index = 0;
 
-    while center < new_s.len() {
+    while right < new_s.len() {
         radius = 0;
 
         // Keep expending the radius from center character as long as two char matches
@@ -24,24 +31,29 @@ pub fn find_string(s: String) -> String {
             }
         }
 
-        // Store the index of character with max palindromic radius
-        if max_radius < radius {
-            max_radius = radius;
-            max_index = center;
+        if center - radius - 1 < 0 {
+            left = 0
+        } else {
+            left = center - radius - 1;
         }
+        right = center + radius + 1;
 
         // Use the next char as center
-        center += 1;
+        center = right;
     }
 
     // Find the longest palindromic substring using index of character
     //      with the max palindromic radius
     // Filter out the '#'
-    let result_sv: Vec<&char> = new_s.as_slice()
-        [max_index - (max_radius - 1)..max_index + (max_radius - 1)]
-        .iter()
-        .filter(|x| **x != '#')
-        .collect();
+    let result_sv: Vec<&char> = if s.len() % 2 == 0 {
+        new_s.as_slice()[left..right]
+            .iter()
+            .filter(|x| **x != '#')
+            .collect()
+    } else {
+        new_s.as_slice()[left..right].iter().collect()
+    };
 
+    println!("{:?}", result_sv);
     String::from_iter(result_sv)
 }
