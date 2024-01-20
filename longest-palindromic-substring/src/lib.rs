@@ -11,8 +11,23 @@ mod tests {
         assert_eq!(brute_fs(String::from("aacabdkacaa")), center_fs(String::from("aacabdkacaa")));
     }
 
+    // #[test]
+    // fn test_find_string_via_center_2() {
+    //     assert_eq!(brute_fs(String::from("babad")), center_fs(String::from("babad")));
+    // }
+    //
+    // #[test]
+    // fn test_find_string_via_center_3() {
+    //     assert_eq!(brute_fs(String::from("cbbd")), center_fs(String::from("cbbd")));
+    // }
+    //
+    // #[test]
+    // fn test_find_string_via_center_4() {
+    //     assert_eq!(brute_fs(String::from("aaaa")), center_fs(String::from("aaaa")));
+    // }
+    //
     #[test]
-    fn test_find_string_via_center_2() {
-        assert_eq!(brute_fs(String::from("babad")), center_fs(String::from("babad")));
+    fn test_find_string_via_center_5() {
+        assert_eq!(brute_fs(String::from("aaaaa")), center_fs(String::from("aaaaa")));
     }
 }
