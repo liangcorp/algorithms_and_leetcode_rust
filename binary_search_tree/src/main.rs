@@ -9,14 +9,23 @@
 mod binary_search_tree;
 
 fn main() {
-    let mut tree_node = binary_search_tree::Node::new(8);
-    tree_node.insert(3);
-    tree_node.insert(1);
-    tree_node.insert(6);
-    tree_node.insert(10);
-    tree_node.insert(14);
-    tree_node.insert(13);
-    tree_node.insert(4);
-    tree_node.insert(7);
+    let mut tree_node = binary_search_tree::Node::new(50);
+    tree_node.insert(30);
+    tree_node.insert(20);
+    tree_node.insert(40);
+    tree_node.insert(70);
+    tree_node.insert(60);
+    tree_node.insert(80);
+
+    println!("Inorder");
     tree_node.inorder();
+    println!();
+
+    println!("Preorder");
+    tree_node.preorder();
+    println!();
+
+    println!("Postorder");
+    tree_node.postorder();
+    println!();
 }
