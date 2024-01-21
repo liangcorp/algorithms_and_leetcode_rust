@@ -8,34 +8,38 @@
 use crate::binary_search_tree::Node;
 
 impl Node {
-    pub fn inorder(&self) {
+    pub fn in_order(&self) {
         if self.left.is_some() && self.right.is_some() {
-            self.left.as_ref().unwrap().inorder();
+            self.left.as_ref().unwrap().in_order();
             print!("{}  ", self.data);
-            self.right.as_ref().unwrap().inorder();
+            self.right.as_ref().unwrap().in_order();
         } else {
             print!("{}  ", self.data);
         }
     }
 
-    pub fn preorder(&self) {
+    pub fn pre_order(&self) {
         if self.left.is_some() && self.right.is_some() {
             print!("{}  ", self.data);
-            self.left.as_ref().unwrap().preorder();
-            self.right.as_ref().unwrap().preorder();
+            self.left.as_ref().unwrap().pre_order();
+            self.right.as_ref().unwrap().pre_order();
         } else {
             print!("{}  ", self.data);
         }
     }
 
-    pub fn postorder(&self) {
+    pub fn post_order(&self) {
         if self.left.is_some() && self.right.is_some() {
-            self.left.as_ref().unwrap().postorder();
-            self.right.as_ref().unwrap().postorder();
+            self.left.as_ref().unwrap().post_order();
+            self.right.as_ref().unwrap().post_order();
             print!("{}  ", self.data);
         } else {
             print!("{}  ", self.data);
         }
+    }
+
+    pub fn level_order(&self) {
+
     }
 
     pub fn leaf_nodes(&self) {
