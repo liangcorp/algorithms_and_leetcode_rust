@@ -16,15 +16,19 @@ fn main() {
     tree_node.insert(60);
     tree_node.insert(80);
 
-    println!("Inorder");
+    println!("Inorder: ");
     tree_node.inorder();
     println!();
 
-    println!("Preorder");
+    println!("Preorder: ");
     tree_node.preorder();
     println!();
 
-    println!("Postorder");
+    println!("Postorder: ");
     tree_node.postorder();
+    println!();
+
+    println!("Leaf Nodes:");
+    tree_node.leaf_nodes();
     println!();
 }

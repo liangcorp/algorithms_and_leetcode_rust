@@ -37,4 +37,13 @@ impl Node {
             print!("{}  ", self.data);
         }
     }
+
+    pub fn leaf_nodes(&self) {
+        if self.left.is_some() || self.right.is_some() {
+            self.left.as_ref().unwrap().leaf_nodes();
+            self.right.as_ref().unwrap().leaf_nodes();
+        } else {
+            print!("{}  ", self.data);
+        }
+    }
 }
