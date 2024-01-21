@@ -7,7 +7,6 @@
 
 
 mod binary_search_tree;
-// use computer_algorithms::binary_search_tree;
 
 fn main() {
     let mut tree_node = binary_search_tree::Node::new(8);
