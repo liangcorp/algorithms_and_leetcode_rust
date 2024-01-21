@@ -31,14 +31,18 @@ pub fn find_string(s: String) -> String {
                 // expends beyond the border of the
                 // largest palidrome
                 r - i // palidrome of current character is at least
-                      // the size of (border - index)
+                      // the size of it's index to border
+                      // i.e. (border - index)
             } else {
+                // if mirror character's palidrome
+                // is inside of the largest palidrome
                 p_radii[i_mirror] // mirror property
             }
         }
 
         // expanding around index
-        // starting point depending on (border - index) if applicable
+        // starting position of expention
+        // depends on index + 1 + (border - index) if applicable
         while new_s[i + 1 + p_radii[i]] == new_s[i - 1 - p_radii[i]] {
             p_radii[i] += 1;
         }
