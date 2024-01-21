@@ -31,4 +31,8 @@ fn main() {
     println!("Leaf Nodes:");
     tree_node.leaf_nodes();
     println!();
+
+    println!("None Leaf Nodes:");
+    tree_node.none_leaf_nodes();
+    println!();
 }
