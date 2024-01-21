@@ -1,6 +1,6 @@
-mod search;
 mod insert;
 mod print;
+mod search;
 
 pub struct Node {
     data: i32,
@@ -16,6 +16,22 @@ impl Node {
             data,
             left: None,
             right: None,
+        }
+    }
+
+    pub fn tree_height(&self) -> i32 {
+        let l_depth;
+        let r_depth;
+        if self.left.is_some() || self.right.is_some() {
+            l_depth = self.left.as_ref().unwrap().tree_height();
+            r_depth = self.right.as_ref().unwrap().tree_height();
+            if l_depth > r_depth {
+                l_depth + 1
+            } else {
+               r_depth + 1
+            }
+        } else {
+            1
         }
     }
 }

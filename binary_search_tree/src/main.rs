@@ -35,4 +35,6 @@ fn main() {
     println!("None Leaf Nodes:");
     tree_node.none_leaf_nodes();
     println!();
+
+    println!("Tree height: {}", tree_node.tree_height());
 }
