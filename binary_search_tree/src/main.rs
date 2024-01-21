@@ -36,6 +36,9 @@ fn main() {
     tree_node.none_leaf_nodes();
     println!();
 
+    println!("Number of levels: {}", tree_node.tree_height());
+    println!("Number of nodes: {}", tree_node.node_count());
+
     println!("Print at level");
     for i in 0..tree_node.tree_height() {
         tree_node.given_level(i);

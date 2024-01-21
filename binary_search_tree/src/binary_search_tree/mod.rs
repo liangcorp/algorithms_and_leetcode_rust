@@ -28,8 +28,16 @@ impl Node {
             if l_depth > r_depth {
                 l_depth + 1
             } else {
-               r_depth + 1
+                r_depth + 1
             }
+        } else {
+            1
+        }
+    }
+
+    pub fn node_count(&self) -> i32 {
+        if self.left.is_some() || self.right.is_some() {
+            self.left.as_ref().unwrap().node_count() + self.right.as_ref().unwrap().node_count() + 1
         } else {
             1
         }
