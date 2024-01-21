@@ -5,6 +5,8 @@
  * Date: 21-January-2024
  */
 
+use std::cmp::Ordering;
+
 use crate::binary_search_tree::Node;
 
 impl Node {
@@ -38,8 +40,17 @@ impl Node {
         }
     }
 
-    pub fn level_order(&self) {
-
+    pub fn given_level(&self, level: i32) {
+        match level.cmp(&0) {
+            Ordering::Equal => {
+                print!("{}  ", self.data)
+            },
+            Ordering::Greater => {
+                self.left.as_ref().unwrap().given_level(level - 1);
+                self.right.as_ref().unwrap().given_level(level - 1);
+            }
+            Ordering::Less => (),
+        }
     }
 
     pub fn leaf_nodes(&self) {

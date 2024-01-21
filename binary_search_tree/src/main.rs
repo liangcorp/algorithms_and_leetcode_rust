@@ -36,5 +36,9 @@ fn main() {
     tree_node.none_leaf_nodes();
     println!();
 
-    println!("Tree height: {}", tree_node.tree_height());
+    println!("Print at level");
+    for i in 0..tree_node.tree_height() {
+        tree_node.given_level(i);
+        println!();
+    }
 }
