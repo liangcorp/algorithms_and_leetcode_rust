@@ -5,7 +5,6 @@
  * Date: 21-January-2024
  */
 
-
 mod binary_search_tree;
 
 fn main() {
