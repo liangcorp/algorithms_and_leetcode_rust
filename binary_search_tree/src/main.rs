@@ -44,4 +44,7 @@ fn main() {
         tree_node.given_level(i);
         println!();
     }
+
+    println!("Smallest value: {}", tree_node.min_value());
+
 }
