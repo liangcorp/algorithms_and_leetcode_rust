@@ -1,6 +1,7 @@
 mod insert;
 mod print;
 mod search;
+mod delete;
 
 pub struct Node {
     data: i32,
