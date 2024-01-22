@@ -13,10 +13,14 @@ impl Node {
     pub fn delete(&mut self, data: i32) {
         match data.cmp(&self.data) {
             Ordering::Less => {
-                self.left.as_mut().unwrap().delete(data);
+                if let Some(left) = self.left.as_mut() {
+                    left.delete(data);
+                }
             }
             Ordering::Greater => {
-                self.right.as_mut().unwrap().delete(data);
+                if let Some(right) = self.right.as_mut() {
+                    right.delete(data);
+                }
             }
             Ordering::Equal => {
                 if self.left.is_none() && self.right.is_none() {
