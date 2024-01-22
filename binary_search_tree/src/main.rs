@@ -47,4 +47,9 @@ fn main() {
 
     println!("Smallest value: {}", tree_node.min_value());
 
+    println!("Print only right nodes");
+    tree_node.right_nodes();
+
+    println!("Print only left nodes");
+    tree_node.left_nodes();
 }

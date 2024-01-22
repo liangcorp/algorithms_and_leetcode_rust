@@ -44,7 +44,7 @@ impl Node {
         match level.cmp(&0) {
             Ordering::Equal => {
                 print!("{}  ", self.data)
-            },
+            }
             Ordering::Greater => {
                 self.left.as_ref().unwrap().given_level(level - 1);
                 self.right.as_ref().unwrap().given_level(level - 1);
@@ -67,6 +67,26 @@ impl Node {
             print!("{}  ", self.data);
             self.left.as_ref().unwrap().none_leaf_nodes();
             self.right.as_ref().unwrap().none_leaf_nodes();
+        }
+    }
+
+    pub fn left_nodes(&self) {
+        if self.left.is_some() {
+            print!("{}  ", self.data);
+            self.left.as_ref().unwrap().left_nodes();
+        } else {
+            print!("{}", self.data);
+            println!();
+        }
+    }
+
+    pub fn right_nodes(&self) {
+        if self.right.is_some() {
+            print!("{}  ", self.data);
+            self.right.as_ref().unwrap().right_nodes();
+        } else {
+            print!("{}", self.data);
+            println!();
         }
     }
 }
