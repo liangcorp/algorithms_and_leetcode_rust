@@ -22,14 +22,19 @@ impl Node {
                     right.delete(data);
                 }
             }
+
             Ordering::Equal => {
-                if self.left.is_none() && self.right.is_none() {
-                    let _ = self;
-                } else if self.left.is_some() && self.right.is_none() {
-                    self::Node::new(self.left.as_mut().unwrap().data);
-                } else if self.left.is_none() && self.right.is_some() {
-                    self::Node::new(self.right.as_mut().unwrap().data);
-                }
+                // if self.left.is_none() && self.right.is_none() {
+                //     // let _ = self;
+                //     println!("{:?}", self);
+                //     drop(self);
+                //     self.data = 0;
+                //
+                // } else if self.left.is_some() && self.right.is_none() {
+                //     self::Node::new(self.left.as_ref().unwrap().data);
+                // } else if self.left.is_none() && self.right.is_some() {
+                //     self::Node::new(self.right.as_ref().unwrap().data);
+                // }
             }
         }
     }

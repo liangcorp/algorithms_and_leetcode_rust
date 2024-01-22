@@ -1,8 +1,9 @@
+mod delete;
 mod insert;
 mod print;
 mod search;
-mod delete;
 
+#[derive(Debug)]
 pub struct Node {
     data: i32,
     left: Pointer,
@@ -58,7 +59,6 @@ impl Node {
                 None => r_node_count = 0,
             }
             l_node_count + r_node_count + 1
-
         } else {
             1
         }

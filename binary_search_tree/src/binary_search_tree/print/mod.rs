@@ -12,9 +12,13 @@ use crate::binary_search_tree::Node;
 impl Node {
     pub fn in_order(&self) {
         if self.left.is_some() && self.right.is_some() {
-            self.left.as_ref().unwrap().in_order();
+            if let Some(left) = self.left.as_ref() {
+                left.in_order();
+            }
             print!("{}  ", self.data);
-            self.right.as_ref().unwrap().in_order();
+            if let Some(right) = self.right.as_ref() {
+                right.in_order();
+            }
         } else {
             print!("{}  ", self.data);
         }
@@ -23,8 +27,12 @@ impl Node {
     pub fn pre_order(&self) {
         if self.left.is_some() && self.right.is_some() {
             print!("{}  ", self.data);
-            self.left.as_ref().unwrap().pre_order();
-            self.right.as_ref().unwrap().pre_order();
+            if let Some(left) = self.left.as_ref() {
+                left.pre_order();
+            }
+            if let Some(right) = self.right.as_ref() {
+                right.pre_order();
+            }
         } else {
             print!("{}  ", self.data);
         }
@@ -32,8 +40,12 @@ impl Node {
 
     pub fn post_order(&self) {
         if self.left.is_some() && self.right.is_some() {
-            self.left.as_ref().unwrap().post_order();
-            self.right.as_ref().unwrap().post_order();
+            if let Some(left) = self.left.as_ref() {
+                left.post_order();
+            }
+            if let Some(right) = self.right.as_ref() {
+                right.post_order();
+            }
             print!("{}  ", self.data);
         } else {
             print!("{}  ", self.data);
@@ -83,24 +95,28 @@ impl Node {
     }
 
     pub fn left_nodes(&self) {
-        if self.left.is_some() {
-            print!("{}  ", self.data);
-            if let Some(left) = self.left.as_ref() {
+        match self.left.as_ref() {
+            Some(left) => {
+                print!("{}  ", self.data);
                 left.left_nodes();
             }
-        } else {
-            print!("{}", self.data);
-            println!();
+            None => {
+                print!("{}", self.data);
+                println!();
+            }
         }
     }
 
     pub fn right_nodes(&self) {
-        if self.right.is_some() {
-            print!("{}  ", self.data);
-            self.right.as_ref().unwrap().right_nodes();
-        } else {
-            print!("{}", self.data);
-            println!();
+        match self.right.as_ref() {
+            Some(right) => {
+                print!("{}  ", self.data);
+                right.right_nodes();
+            }
+            None => {
+                print!("{}", self.data);
+                println!();
+            }
         }
     }
 }

@@ -16,7 +16,9 @@ impl Node {
         match data.cmp(&self.data) {
             Ordering::Less => {
                 if self.left.is_some() {
-                    self.left.as_mut().unwrap().insert(data);
+                    if let Some(left) = self.left.as_mut() {
+                        left.insert(data);
+                    }
                 } else {
                     new_node = Box::new(Node::new(data));
                     self.left = Some(new_node);
@@ -24,7 +26,9 @@ impl Node {
             }
             Ordering::Greater => {
                 if self.right.is_some() {
-                    self.right.as_mut().unwrap().insert(data);
+                    if let Some(right) = self.right.as_mut() {
+                        right.insert(data);
+                    }
                 } else {
                     new_node = Box::new(Node::new(data));
                     self.right = Some(new_node);
