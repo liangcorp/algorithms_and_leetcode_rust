@@ -1,7 +1,5 @@
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, cmp::Ordering, rc::Rc};
 
-mod delete;
-mod insert;
 mod print;
 mod search;
 
@@ -15,11 +13,37 @@ pub struct Node {
 type Pointer = Option<Rc<RefCell<Node>>>;
 
 impl Node {
-    pub fn new(data: i32) -> Node {
-        Node {
+    pub fn new(data: i32) -> Pointer {
+        Some(Rc::new(RefCell::new(Node {
             data,
             left: None,
             right: None,
+        })))
+    }
+
+    pub fn insert(&mut self, data: i32) {
+        let new_node;
+
+        match data.cmp(&self.data) {
+            Ordering::Less => match &self.left {
+                Some(left) => {
+                    (*left).borrow_mut().insert(data);
+                }
+                None => {
+                    new_node = Node::new(data);
+                    self.left = new_node;
+                }
+            },
+            Ordering::Greater => match &self.right {
+                Some(right) => {
+                    (*right).borrow_mut().insert(data);
+                }
+                None => {
+                    new_node = Node::new(data);
+                    self.right = new_node;
+                }
+            },
+            Ordering::Equal => (),
         }
     }
 
@@ -61,5 +85,35 @@ impl Node {
         };
 
         l_count + r_count + 1
+    }
+
+    #[allow(dead_code)]
+    pub fn delete(&mut self, data: i32) {
+        match data.cmp(&self.data) {
+            Ordering::Less => {
+                if let Some(left) = self.left.take() {
+                    (*left).borrow_mut().delete(data);
+                }
+            }
+            Ordering::Greater => {
+                if let Some(right) = self.right.take() {
+                    (*right).borrow_mut().delete(data);
+                }
+            }
+
+            Ordering::Equal => {
+                if self.left.is_none() && self.right.is_none() {
+                    let _ = self;
+                }
+
+                // if let Some(left) = self.left {
+                //     self = (*left).take();
+                // }
+                //
+                // if let Some(right) = self.right {
+                //     self = (*right).clone();
+                // }
+            }
+        }
     }
 }
