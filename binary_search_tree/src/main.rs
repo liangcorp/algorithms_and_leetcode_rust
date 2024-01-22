@@ -43,6 +43,7 @@ fn main() {
     for i in 0..tree_node.tree_height() {
         tree_node.given_level(i);
         println!();
+        // println!("{:0i$}", i);
     }
 
     println!("Smallest value: {}", tree_node.min_value());
@@ -53,8 +54,8 @@ fn main() {
     println!("Print only left nodes");
     tree_node.left_nodes();
 
-    println!("Delete");
-    tree_node.delete(80);
-    tree_node.in_order();
-    println!();
+    // println!("Delete");
+    // tree_node.delete(80);
+    // tree_node.in_order();
+    // println!();
 }

@@ -7,33 +7,34 @@
 
 use crate::binary_search_tree::Node;
 
-use std::cmp::Ordering;
+use std::{cmp::Ordering, borrow::BorrowMut};
 
 impl Node {
+#[allow(dead_code)]
     pub fn delete(&mut self, data: i32) {
         match data.cmp(&self.data) {
             Ordering::Less => {
-                if let Some(left) = self.left.as_mut() {
-                    left.delete(data);
+                if let Some(left) = &self.left {
+                    (**left).borrow_mut().delete(data);
                 }
             }
             Ordering::Greater => {
-                if let Some(right) = self.right.as_mut() {
-                    right.delete(data);
+                if let Some(right) = &self.right {
+                    (**right).borrow_mut().delete(data);
                 }
             }
 
             Ordering::Equal => {
-                // if self.left.is_none() && self.right.is_none() {
-                //     // let _ = self;
-                //     println!("{:?}", self);
-                //     drop(self);
-                //     self.data = 0;
+                if self.left.is_none() && self.right.is_none() {
+                        drop(self.borrow_mut());
+                }
+
+                // if let Some(left) = self.left {
+                //     self = (*left).take();
+                // }
                 //
-                // } else if self.left.is_some() && self.right.is_none() {
-                //     self::Node::new(self.left.as_ref().unwrap().data);
-                // } else if self.left.is_none() && self.right.is_some() {
-                //     self::Node::new(self.right.as_ref().unwrap().data);
+                // if let Some(right) = self.right {
+                //     self = (*right).clone();
                 // }
             }
         }

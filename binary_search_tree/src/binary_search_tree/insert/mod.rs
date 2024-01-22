@@ -5,7 +5,9 @@
  * Date: 21-January-2024
  */
 
+use std::cell::RefCell;
 use std::cmp::Ordering;
+use std::rc::Rc;
 
 use crate::binary_search_tree::Node;
 
@@ -14,26 +16,24 @@ impl Node {
         let new_node;
 
         match data.cmp(&self.data) {
-            Ordering::Less => {
-                if self.left.is_some() {
-                    if let Some(left) = self.left.as_mut() {
-                        left.insert(data);
-                    }
-                } else {
-                    new_node = Box::new(Node::new(data));
+            Ordering::Less => match &self.left {
+                Some(left) => {
+                    (*left).borrow_mut().insert(data);
+                }
+                None => {
+                    new_node = Rc::new(RefCell::new(Node::new(data)));
                     self.left = Some(new_node);
                 }
-            }
-            Ordering::Greater => {
-                if self.right.is_some() {
-                    if let Some(right) = self.right.as_mut() {
-                        right.insert(data);
-                    }
-                } else {
-                    new_node = Box::new(Node::new(data));
+            },
+            Ordering::Greater => match &self.right {
+                Some(right) => {
+                    (*right).borrow_mut().insert(data);
+                }
+                None => {
+                    new_node = Rc::new(RefCell::new(Node::new(data)));
                     self.right = Some(new_node);
                 }
-            }
+            },
             Ordering::Equal => (),
         }
     }
