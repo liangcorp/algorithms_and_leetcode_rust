@@ -1,24 +1,41 @@
+use std::{cmp::Ordering, ops::Deref};
+
 mod delete;
-mod insert;
 mod print;
 mod search;
 
-#[derive(Debug)]
 pub struct Node {
     data: i32,
-    left: Pointer,
-    right: Pointer,
+    left: Tree,
+    right: Tree,
 }
 
 type Pointer = Option<Box<Node>>;
 
-impl Node {
-    pub fn new(data: i32) -> Node {
-        Node {
+pub struct Tree(Pointer);
+
+impl Tree {
+    pub fn new() -> Tree {
+        Tree(None)
+    }
+
+    pub fn insert(&mut self, data: i32) {
+        let new_node = Some(Box::new(Node {
             data,
-            left: None,
-            right: None,
+            left: Tree(None),
+            right: Tree(None),
+        }));
+
+        let mut tree = self;
+
+        while let Some(ref mut node) = (*tree).0 {
+            match data.cmp(&node.data) {
+                Ordering::Less => tree = &mut node.left,
+                Ordering::Greater => tree = &mut node.right,
+                Ordering::Equal => (),
+            }
         }
+        (*tree).0 = new_node;
     }
 
     pub fn tree_height(&self) -> i32 {

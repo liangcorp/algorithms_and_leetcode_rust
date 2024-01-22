@@ -1,4 +1,4 @@
-use std::{cell::RefCell, cmp::Ordering, rc::Rc};
+use std::{borrow::BorrowMut, cell::RefCell, cmp::Ordering, rc::Rc};
 
 mod print;
 mod search;
@@ -12,35 +12,37 @@ pub struct Node {
 
 type Pointer = Option<Rc<RefCell<Node>>>;
 
-impl Node {
-    pub fn new(data: i32) -> Pointer {
-        Some(Rc::new(RefCell::new(Node {
+pub struct BinarySearchTree(Pointer);
+
+impl BinarySearchTree {
+    pub fn new(data: i32) -> BinarySearchTree {
+        BinarySearchTree(Some(Rc::new(RefCell::new(Node {
             data,
             left: None,
             right: None,
-        })))
+        }))))
     }
 
     pub fn insert(&mut self, data: i32) {
         let new_node;
 
-        match data.cmp(&self.data) {
-            Ordering::Less => match &self.left {
+        match data.cmp(self.data.borrow_mut()) {
+            Ordering::Less => match self.left.borrow_mut() {
                 Some(left) => {
-                    (*left).borrow_mut().insert(data);
+                    (**left).borrow_mut().insert(data);
                 }
                 None => {
                     new_node = Node::new(data);
-                    self.left = new_node;
+                    self.left = Some(Rc::new(RefCell::new(new_node)));
                 }
             },
-            Ordering::Greater => match &self.right {
+            Ordering::Greater => match self.right.borrow_mut() {
                 Some(right) => {
-                    (*right).borrow_mut().insert(data);
+                    (**right).borrow_mut().insert(data);
                 }
                 None => {
                     new_node = Node::new(data);
-                    self.right = new_node;
+                    self.right = Some(Rc::new(RefCell::new(new_node)));
                 }
             },
             Ordering::Equal => (),
@@ -89,30 +91,30 @@ impl Node {
 
     #[allow(dead_code)]
     pub fn delete(&mut self, data: i32) {
-        match data.cmp(&self.data) {
-            Ordering::Less => {
-                if let Some(left) = self.left.take() {
-                    (*left).borrow_mut().delete(data);
-                }
-            }
-            Ordering::Greater => {
-                if let Some(right) = self.right.take() {
-                    (*right).borrow_mut().delete(data);
-                }
-            }
+        let mut c_node = self;
 
-            Ordering::Equal => {
-                if self.left.is_none() && self.right.is_none() {
-                    let _ = self;
+        unsafe {
+            loop {
+                match data.cmp(&self.data) {
+                    Ordering::Less => {
+                        println!("Going left");
+                        if c_node.left.is_some() {
+                            c_node = (*c_node.left.unwrap());
+                        }
+                    }
+                    Ordering::Greater => {
+                        println!("Going right");
+                        if c_node.right.is_some() {
+                            c_node = c_node.right.unwrap();
+                        }
+                    }
+                    Ordering::Equal => {
+                        if c_node.left.is_none() && c_node.right.is_none() {
+                            drop(c_node);
+                            break;
+                        }
+                    }
                 }
-
-                // if let Some(left) = self.left {
-                //     self = (*left).take();
-                // }
-                //
-                // if let Some(right) = self.right {
-                //     self = (*right).clone();
-                // }
             }
         }
     }
