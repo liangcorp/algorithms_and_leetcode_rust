@@ -46,8 +46,12 @@ impl Node {
                 print!("{}  ", self.data)
             }
             Ordering::Greater => {
-                self.left.as_ref().unwrap().given_level(level - 1);
-                self.right.as_ref().unwrap().given_level(level - 1);
+                if let Some(left) = self.left.as_ref() {
+                    left.given_level(level - 1);
+                }
+                if let Some(right) = self.right.as_ref() {
+                    right.given_level(level - 1);
+                }
             }
             Ordering::Less => (),
         }
@@ -55,8 +59,12 @@ impl Node {
 
     pub fn leaf_nodes(&self) {
         if self.left.is_some() || self.right.is_some() {
-            self.left.as_ref().unwrap().leaf_nodes();
-            self.right.as_ref().unwrap().leaf_nodes();
+            if let Some(left) = self.left.as_ref() {
+                left.leaf_nodes();
+            }
+            if let Some(right) = self.right.as_ref() {
+                right.leaf_nodes();
+            }
         } else {
             print!("{}  ", self.data);
         }
@@ -65,15 +73,21 @@ impl Node {
     pub fn none_leaf_nodes(&self) {
         if self.left.is_some() || self.right.is_some() {
             print!("{}  ", self.data);
-            self.left.as_ref().unwrap().none_leaf_nodes();
-            self.right.as_ref().unwrap().none_leaf_nodes();
+            if let Some(left) = self.left.as_ref() {
+                left.leaf_nodes();
+            }
+            if let Some(right) = self.right.as_ref() {
+                right.leaf_nodes();
+            }
         }
     }
 
     pub fn left_nodes(&self) {
         if self.left.is_some() {
             print!("{}  ", self.data);
-            self.left.as_ref().unwrap().left_nodes();
+            if let Some(left) = self.left.as_ref() {
+                left.left_nodes();
+            }
         } else {
             print!("{}", self.data);
             println!();

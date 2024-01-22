@@ -24,8 +24,16 @@ impl Node {
         let l_depth;
         let r_depth;
         if self.left.is_some() || self.right.is_some() {
-            l_depth = self.left.as_ref().unwrap().tree_height();
-            r_depth = self.right.as_ref().unwrap().tree_height();
+            match self.left.as_ref() {
+                Some(left) => l_depth = left.tree_height(),
+                None => l_depth = 1,
+            }
+
+            match self.right.as_ref() {
+                Some(right) => r_depth = right.tree_height(),
+                None => r_depth = 1,
+            }
+
             if l_depth > r_depth {
                 l_depth + 1
             } else {
@@ -37,8 +45,20 @@ impl Node {
     }
 
     pub fn node_count(&self) -> i32 {
+        let l_node_count;
+        let r_node_count;
+
         if self.left.is_some() || self.right.is_some() {
-            self.left.as_ref().unwrap().node_count() + self.right.as_ref().unwrap().node_count() + 1
+            match self.left.as_ref() {
+                Some(left) => l_node_count = left.node_count(),
+                None => l_node_count = 0,
+            }
+            match self.right.as_ref() {
+                Some(right) => r_node_count = right.node_count(),
+                None => r_node_count = 0,
+            }
+            l_node_count + r_node_count + 1
+
         } else {
             1
         }
