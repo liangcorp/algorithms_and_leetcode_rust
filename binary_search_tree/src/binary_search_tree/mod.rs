@@ -1,7 +1,8 @@
 mod delete;
-mod insert;
 mod print;
 mod search;
+
+use std::cmp::Ordering;
 
 #[derive(Debug)]
 pub struct Node {
@@ -18,6 +19,34 @@ impl Node {
             data,
             left: None,
             right: None,
+        }
+    }
+
+    pub fn insert(&mut self, data: i32) {
+        let new_node;
+
+        match data.cmp(&self.data) {
+            Ordering::Less => {
+                if self.left.is_some() {
+                    if let Some(left) = self.left.as_mut() {
+                        left.insert(data);
+                    }
+                } else {
+                    new_node = Box::new(Node::new(data));
+                    self.left = Some(new_node);
+                }
+            }
+            Ordering::Greater => {
+                if self.right.is_some() {
+                    if let Some(right) = self.right.as_mut() {
+                        right.insert(data);
+                    }
+                } else {
+                    new_node = Box::new(Node::new(data));
+                    self.right = Some(new_node);
+                }
+            }
+            Ordering::Equal => (),
         }
     }
 
