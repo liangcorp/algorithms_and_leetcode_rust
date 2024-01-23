@@ -1,4 +1,4 @@
-use binary_search_tree::binary_search_tree::Node as bst_node;
+use binary_search_tree::Node as bst_node;
 
 #[test]
 fn binary_search_tree_node_count() {
