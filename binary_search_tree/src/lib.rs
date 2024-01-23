@@ -84,33 +84,54 @@ impl Node {
     pub fn delete(&mut self, data: i32) {
         match data.cmp(&self.data) {
             Ordering::Less => {
-                // if let Some(left) = self.left.as_mut() {
-                //     if left.data == data {
-                //         left.left = left.left.as_mut().unwrap().left;
-                //     } else {
-                //         left.delete(data);
-                //     }
-                // }
+                if let Some(left) = self.left.as_mut() {
+                    if left.as_mut().data == data
+                        && left.as_mut().left.is_none()
+                        && left.as_mut().right.is_none()
+                    {
+                        self.left = None;
+                    } else {
+                        left.delete(data);
+                    }
+                }
+
+                if let Some(right) = self.right.as_mut() {
+                    if right.as_mut().data == data
+                        && right.as_mut().left.is_none()
+                        && right.as_mut().right.is_none()
+                    {
+                        self.right = None;
+                    } else {
+                        right.delete(data);
+                    }
+                }
             }
             Ordering::Greater => {
+                if let Some(left) = self.left.as_mut() {
+                    if left.as_mut().data == data
+                        && left.as_mut().left.is_none()
+                        && left.as_mut().right.is_none()
+                    {
+                        println!("{}", left.as_mut().data);
+                        self.left = None;
+                    } else {
+                        left.delete(data);
+                    }
+                }
+
                 if let Some(right) = self.right.as_mut() {
-                    right.delete(data);
+                    if right.as_mut().data == data
+                        && right.as_mut().left.is_none()
+                        && right.as_mut().right.is_none()
+                    {
+                        self.right = None;
+                    } else {
+                        right.delete(data);
+                    }
                 }
             }
 
-            Ordering::Equal => {
-                // if self.left.is_none() && self.right.is_none() {
-                //     // let _ = self;
-                //     println!("{:?}", self);
-                //     drop(self);
-                //     self.data = 0;
-                //
-                // } else if self.left.is_some() && self.right.is_none() {
-                //     self::Node::new(self.left.as_ref().unwrap().data);
-                // } else if self.left.is_none() && self.right.is_some() {
-                //     self::Node::new(self.right.as_ref().unwrap().data);
-                // }
-            }
+            Ordering::Equal => {}
         }
     }
 }
