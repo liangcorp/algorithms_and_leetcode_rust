@@ -31,15 +31,13 @@ impl Node {
                     self.left = Some(new_node);
                 }
             },
-            Ordering::Greater => {
-                match self.right.as_mut() {
-                    Some(left) => left.insert(data),
-                    None => {
-                        new_node = Box::new(Node::new(data));
-                        self.right = Some(new_node);
-                    }
+            Ordering::Greater => match self.right.as_mut() {
+                Some(left) => left.insert(data),
+                None => {
+                    new_node = Box::new(Node::new(data));
+                    self.right = Some(new_node);
                 }
-            }
+            },
             Ordering::Equal => (),
         }
     }
@@ -86,9 +84,13 @@ impl Node {
     pub fn delete(&mut self, data: i32) {
         match data.cmp(&self.data) {
             Ordering::Less => {
-                if let Some(left) = self.left.as_mut() {
-                    left.delete(data);
-                }
+                // if let Some(left) = self.left.as_mut() {
+                //     if left.data == data {
+                //         left.left = left.left.as_mut().unwrap().left;
+                //     } else {
+                //         left.delete(data);
+                //     }
+                // }
             }
             Ordering::Greater => {
                 if let Some(right) = self.right.as_mut() {
