@@ -46,10 +46,10 @@ fn main() {
     println!("Smallest value: {}", tree_node.min_value());
 
     println!("Print only right nodes");
-    tree_node.right_nodes();
+    tree_node.only_right();
 
     println!("Print only left nodes");
-    tree_node.left_nodes();
+    tree_node.only_left();
 
     println!("Delete");
     tree_node.delete(80);

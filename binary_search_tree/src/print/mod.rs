@@ -58,15 +58,15 @@ impl Node {
     }
 
     pub fn leaf_nodes(&self) {
-        if self.left.is_some() || self.right.is_some() {
+        if self.left.is_none() && self.right.is_none() {
+            print!("{}  ", self.data);
+        } else {
             if let Some(left) = self.left.as_ref() {
                 left.leaf_nodes();
             }
             if let Some(right) = self.right.as_ref() {
                 right.leaf_nodes();
             }
-        } else {
-            print!("{}  ", self.data);
         }
     }
 
@@ -82,11 +82,11 @@ impl Node {
         }
     }
 
-    pub fn left_nodes(&self) {
+    pub fn only_left(&self) {
         match self.left.as_ref() {
             Some(left) => {
                 print!("{}  ", self.data);
-                left.left_nodes();
+                left.only_left();
             }
             None => {
                 print!("{}", self.data);
@@ -95,11 +95,11 @@ impl Node {
         }
     }
 
-    pub fn right_nodes(&self) {
+    pub fn only_right(&self) {
         match self.right.as_ref() {
             Some(right) => {
                 print!("{}  ", self.data);
-                right.right_nodes();
+                right.only_right();
             }
             None => {
                 print!("{}", self.data);
