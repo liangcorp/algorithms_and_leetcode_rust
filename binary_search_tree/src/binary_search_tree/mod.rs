@@ -81,4 +81,11 @@ impl Node {
 
         l_node_count + r_node_count + 1
     }
+
+    pub fn min_value(&self) -> i32 {
+        match self.left.as_ref() {
+            Some(left) => left.min_value(),
+            None => self.data,
+        }
+    }
 }
