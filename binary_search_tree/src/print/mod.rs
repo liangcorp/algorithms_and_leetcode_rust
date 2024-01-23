@@ -11,45 +11,33 @@ use std::cmp::Ordering;
 
 impl Node {
     pub fn in_order(&self) {
-        if self.left.is_some() && self.right.is_some() {
-            if let Some(left) = self.left.as_ref() {
-                left.in_order();
-            }
-            print!("{}  ", self.data);
-            if let Some(right) = self.right.as_ref() {
-                right.in_order();
-            }
-        } else {
-            print!("{}  ", self.data);
+        if let Some(left) = self.left.as_ref() {
+            left.in_order();
+        }
+        print!("{}  ", self.data);
+        if let Some(right) = self.right.as_ref() {
+            right.in_order();
         }
     }
 
     pub fn pre_order(&self) {
-        if self.left.is_some() && self.right.is_some() {
-            print!("{}  ", self.data);
-            if let Some(left) = self.left.as_ref() {
-                left.pre_order();
-            }
-            if let Some(right) = self.right.as_ref() {
-                right.pre_order();
-            }
-        } else {
-            print!("{}  ", self.data);
+        print!("{}  ", self.data);
+        if let Some(left) = self.left.as_ref() {
+            left.pre_order();
+        }
+        if let Some(right) = self.right.as_ref() {
+            right.pre_order();
         }
     }
 
     pub fn post_order(&self) {
-        if self.left.is_some() && self.right.is_some() {
-            if let Some(left) = self.left.as_ref() {
-                left.post_order();
-            }
-            if let Some(right) = self.right.as_ref() {
-                right.post_order();
-            }
-            print!("{}  ", self.data);
-        } else {
-            print!("{}  ", self.data);
+        if let Some(left) = self.left.as_ref() {
+            left.post_order();
         }
+        if let Some(right) = self.right.as_ref() {
+            right.post_order();
+        }
+        print!("{}  ", self.data);
     }
 
     pub fn given_level(&self, level: i32) {
