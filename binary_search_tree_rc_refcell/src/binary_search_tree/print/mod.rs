@@ -12,14 +12,12 @@ use crate::binary_search_tree::Node;
 impl Node {
     pub fn in_order(&self) {
         if self.left.is_some() && self.right.is_some() {
-            if let Some(left) = &self.left {
-                (*left).borrow().in_order();
+            if let Some(left) = self.left.as_ref() {
+                left.in_order();
             }
-
             print!("{}  ", self.data);
-
-            if let Some(right) = &self.right {
-                right.borrow().in_order();
+            if let Some(right) = self.right.as_ref() {
+                right.in_order();
             }
         } else {
             print!("{}  ", self.data);
@@ -29,11 +27,11 @@ impl Node {
     pub fn pre_order(&self) {
         if self.left.is_some() && self.right.is_some() {
             print!("{}  ", self.data);
-            if let Some(left) = &self.left {
-                (*left).borrow().pre_order();
+            if let Some(left) = self.left.as_ref() {
+                left.pre_order();
             }
-            if let Some(right) = &self.right {
-                (*right).borrow().pre_order();
+            if let Some(right) = self.right.as_ref() {
+                right.pre_order();
             }
         } else {
             print!("{}  ", self.data);
@@ -42,11 +40,11 @@ impl Node {
 
     pub fn post_order(&self) {
         if self.left.is_some() && self.right.is_some() {
-            if let Some(left) = &self.left {
-                (*left).borrow().post_order();
+            if let Some(left) = self.left.as_ref() {
+                left.post_order();
             }
-            if let Some(right) = &self.right {
-                (*right).borrow().post_order();
+            if let Some(right) = self.right.as_ref() {
+                right.post_order();
             }
             print!("{}  ", self.data);
         } else {
@@ -60,11 +58,11 @@ impl Node {
                 print!("{}  ", self.data)
             }
             Ordering::Greater => {
-                if let Some(left) = &self.left {
-                    (*left).borrow().given_level(level - 1);
+                if let Some(left) = self.left.as_ref() {
+                    left.given_level(level - 1);
                 }
-                if let Some(right) = &self.right {
-                    (*right).borrow().given_level(level - 1);
+                if let Some(right) = self.right.as_ref() {
+                    right.given_level(level - 1);
                 }
             }
             Ordering::Less => (),
@@ -73,11 +71,11 @@ impl Node {
 
     pub fn leaf_nodes(&self) {
         if self.left.is_some() || self.right.is_some() {
-            if let Some(left) = &self.left {
-                (*left).borrow().leaf_nodes();
+            if let Some(left) = self.left.as_ref() {
+                left.leaf_nodes();
             }
-            if let Some(right) = &self.right {
-                (*right).borrow().leaf_nodes();
+            if let Some(right) = self.right.as_ref() {
+                right.leaf_nodes();
             }
         } else {
             print!("{}  ", self.data);
@@ -87,20 +85,20 @@ impl Node {
     pub fn none_leaf_nodes(&self) {
         if self.left.is_some() || self.right.is_some() {
             print!("{}  ", self.data);
-            if let Some(left) = &self.left {
-                (*left).borrow().leaf_nodes();
+            if let Some(left) = self.left.as_ref() {
+                left.leaf_nodes();
             }
-            if let Some(right) = &self.right {
-                (*right).borrow().leaf_nodes();
+            if let Some(right) = self.right.as_ref() {
+                right.leaf_nodes();
             }
         }
     }
 
     pub fn left_nodes(&self) {
-        match &self.left {
+        match self.left.as_ref() {
             Some(left) => {
                 print!("{}  ", self.data);
-                (*left).borrow().left_nodes();
+                left.left_nodes();
             }
             None => {
                 print!("{}", self.data);
@@ -110,10 +108,10 @@ impl Node {
     }
 
     pub fn right_nodes(&self) {
-        match &self.right {
+        match self.right.as_ref() {
             Some(right) => {
                 print!("{}  ", self.data);
-                (*right).borrow().right_nodes();
+                right.right_nodes();
             }
             None => {
                 print!("{}", self.data);
