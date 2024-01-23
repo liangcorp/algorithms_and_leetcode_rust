@@ -74,10 +74,10 @@ impl Node {
         if self.left.is_some() || self.right.is_some() {
             print!("{}  ", self.data);
             if let Some(left) = self.left.as_ref() {
-                left.leaf_nodes();
+                left.none_leaf_nodes();
             }
             if let Some(right) = self.right.as_ref() {
-                right.leaf_nodes();
+                right.none_leaf_nodes();
             }
         }
     }
