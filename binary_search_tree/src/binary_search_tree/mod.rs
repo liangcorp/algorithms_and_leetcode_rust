@@ -22,26 +22,21 @@ impl Node {
     }
 
     pub fn tree_height(&self) -> i32 {
-        let l_depth;
-        let r_depth;
-        if self.left.is_some() || self.right.is_some() {
-            match self.left.as_ref() {
-                Some(left) => l_depth = left.tree_height(),
-                None => l_depth = 1,
-            }
 
-            match self.right.as_ref() {
-                Some(right) => r_depth = right.tree_height(),
-                None => r_depth = 1,
-            }
+        let l_depth = match self.left.as_ref() {
+            Some(left) => left.tree_height(),
+            None => 0,
+        };
 
-            if l_depth > r_depth {
-                l_depth + 1
-            } else {
-                r_depth + 1
-            }
+        let r_depth = match self.right.as_ref() {
+            Some(right) => right.tree_height(),
+            None => 0,
+        };
+
+        if l_depth > r_depth {
+            l_depth + 1
         } else {
-            1
+            r_depth + 1
         }
     }
 
