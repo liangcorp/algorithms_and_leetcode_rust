@@ -5,9 +5,9 @@
  * Date: 21-January-2024
  */
 
-use std::cmp::Ordering;
+use crate::Node;
 
-use crate::binary_search_tree::Node;
+use std::cmp::Ordering;
 
 impl Node {
     pub fn in_order(&self) {

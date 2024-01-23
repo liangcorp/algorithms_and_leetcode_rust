@@ -5,8 +5,6 @@
  * Date: 21-January-2024
  */
 
-mod binary_search_tree;
-
 fn main() {
     let mut tree_node = binary_search_tree::Node::new(50);
     tree_node.insert(30);
