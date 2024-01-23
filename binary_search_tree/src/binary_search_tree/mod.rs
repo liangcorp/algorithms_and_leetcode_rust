@@ -24,24 +24,20 @@ impl Node {
         let new_node;
 
         match data.cmp(&self.data) {
-            Ordering::Less => {
-                if self.left.is_some() {
-                    if let Some(left) = self.left.as_mut() {
-                        left.insert(data);
-                    }
-                } else {
+            Ordering::Less => match self.left.as_mut() {
+                Some(left) => left.insert(data),
+                None => {
                     new_node = Box::new(Node::new(data));
                     self.left = Some(new_node);
                 }
-            }
+            },
             Ordering::Greater => {
-                if self.right.is_some() {
-                    if let Some(right) = self.right.as_mut() {
-                        right.insert(data);
+                match self.right.as_mut() {
+                    Some(left) => left.insert(data),
+                    None => {
+                        new_node = Box::new(Node::new(data));
+                        self.right = Some(new_node);
                     }
-                } else {
-                    new_node = Box::new(Node::new(data));
-                    self.right = Some(new_node);
                 }
             }
             Ordering::Equal => (),
