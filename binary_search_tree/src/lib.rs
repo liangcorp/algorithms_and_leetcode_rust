@@ -82,6 +82,23 @@ impl Node {
     }
 
     // Only delete leaf node at the moment
+    // Different scenarios for deleting the node:
+
+    // Node to be deleted is the leaf node:
+    //  Its simple you can just null it out.
+    // Node to be deleted has one child:
+    //  You can just replace the node with the child node.
+    // Node to be deleted has two child:
+    //  Need to figure out what will be the
+    //  replacement of the node to be deleted.
+    // Want minimal disruption to the existing tree structure
+    // Can table the replacement node from the deleted
+    // nodes left or right subtree.
+    // If taking if from the left subtree,
+    //  we have to take the largest value in the left subtree.
+    // If taking if from the right subtree,
+    //  we have to take the smallest value in the right subtree.
+    // Choose one approach and stick to it.
     pub fn delete(&mut self, data: i32) {
         // @TODO: finish the delete
         match data.cmp(&self.data) {
