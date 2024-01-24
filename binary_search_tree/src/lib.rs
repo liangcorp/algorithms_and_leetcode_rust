@@ -1,6 +1,6 @@
 mod print;
 
-use std::{cmp::Ordering, ops::Deref};
+use std::cmp::Ordering;
 
 #[derive(Debug)]
 pub struct Node {
@@ -20,22 +20,20 @@ impl Node {
         }
     }
 
-    pub fn insert(&mut self, data: i32) {
-        let new_node;
-
+    pub fn insert(&mut self, tree: &mut Vec<Pointer>, data: i32) {
         match data.cmp(&self.data) {
             Ordering::Less => match self.left.as_mut() {
-                Some(left) => left.insert(data),
+                Some(left) => left.insert(tree, data),
                 None => {
-                    new_node = Box::new(Node::new(data));
-                    self.left = Some(new_node);
+                    self.left = Some(Box::new(Node::new(data)));
+                    tree.push(Some(Box::new(Node::new(data))));
                 }
             },
             Ordering::Greater => match self.right.as_mut() {
-                Some(left) => left.insert(data),
+                Some(left) => left.insert(tree, data),
                 None => {
-                    new_node = Box::new(Node::new(data));
-                    self.right = Some(new_node);
+                    self.right = Some(Box::new(Node::new(data)));
+                    tree.push(Some(Box::new(Node::new(data))));
                 }
             },
             Ordering::Equal => (),
@@ -150,18 +148,18 @@ impl Node {
                 }
             }
 
-            Ordering::Equal => unsafe {
-                if self.left.is_some() && self.right.is_none() {
-                    let node: *mut Node =
-                        std::boxed::Box::<Node>::into_raw(self.left.unwrap().left.unwrap());
-                    // self.left = None;
-                    (*node).left = self.left;
-                } else if self.left.is_none() && self.right.is_some() {
-                    let node: *mut Node = self;
-                    self.right = None;
-                    self.right = Some((*node).right.unwrap());
-                }
-            },
+            Ordering::Equal => {
+                // if self.left.is_some() && self.right.is_none() {
+                //     let node: *mut Node =
+                //         std::boxed::Box::<Node>::into_raw(self.left.unwrap().left.unwrap());
+                //     // self.left = None;
+                //     (*node).left = self.left;
+                // } else if self.left.is_none() && self.right.is_some() {
+                //     let node: *mut Node = self;
+                //     self.right = None;
+                //     self.right = Some((*node).right.unwrap());
+                // }
+            }
         }
     }
 }
