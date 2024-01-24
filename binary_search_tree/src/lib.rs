@@ -81,7 +81,9 @@ impl Node {
         }
     }
 
+    // Only delete leaf node at the moment
     pub fn delete(&mut self, data: i32) {
+        // @TODO: finish the delete
         match data.cmp(&self.data) {
             Ordering::Less => {
                 if let Some(left) = self.left.as_mut() {
