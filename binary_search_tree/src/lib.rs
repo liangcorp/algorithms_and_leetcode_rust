@@ -1,6 +1,6 @@
 mod print;
 
-use std::cmp::Ordering;
+use std::{cmp::Ordering, ops::Deref};
 
 #[derive(Debug)]
 pub struct Node {
@@ -150,7 +150,18 @@ impl Node {
                 }
             }
 
-            Ordering::Equal => {}
+            Ordering::Equal => unsafe {
+                if self.left.is_some() && self.right.is_none() {
+                    let node: *mut Node =
+                        std::boxed::Box::<Node>::into_raw(self.left.unwrap().left.unwrap());
+                    // self.left = None;
+                    (*node).left = self.left;
+                } else if self.left.is_none() && self.right.is_some() {
+                    let node: *mut Node = self;
+                    self.right = None;
+                    self.right = Some((*node).right.unwrap());
+                }
+            },
         }
     }
 }
