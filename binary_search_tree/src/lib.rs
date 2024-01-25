@@ -122,6 +122,11 @@ impl Node {
                             let temp = (**left).borrow_mut().right.clone();
                             println!("Debug left right: {:?}", temp);
                             self.left = temp;
+                        } else if (**left).borrow_mut().left.is_some()
+                            && (**left).borrow_mut().right.is_some()
+                        {
+                            println!("same left");
+                            todo!()
                         } else {
                             println!("delete left");
                             (**left).borrow_mut().delete(data);
@@ -154,6 +159,11 @@ impl Node {
                             let temp = (**right).borrow_mut().right.clone();
                             println!("Debug right right: {:?}", temp);
                             self.right = temp;
+                        } else if (**right).borrow_mut().left.is_some()
+                            && (**right).borrow_mut().right.is_some()
+                        {
+                            println!("same right");
+                            todo!()
                         } else {
                             println!("delete right");
                             (**right).borrow_mut().delete(data);
