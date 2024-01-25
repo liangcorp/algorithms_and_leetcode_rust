@@ -7,17 +7,15 @@
 
 fn main() {
     let mut tree_node = binary_search_tree::Node::new(50);
-    let mut tree: Vec<Option<Box<binary_search_tree::Node>>> = Vec::new();
 
-    tree_node.insert(&mut tree, 30);
-    tree_node.insert(&mut tree, 20);
-    tree_node.insert(&mut tree, 40);
-    tree_node.insert(&mut tree, 70);
-    tree_node.insert(&mut tree, 60);
-    tree_node.insert(&mut tree, 80);
+    tree_node.insert(30);
+    tree_node.insert(20);
+    tree_node.insert(40);
+    tree_node.insert(70);
+    tree_node.insert(60);
+    tree_node.insert(80);
 
-
-    println!("{:?}", tree);
+    // println!("{:?}", tree);
 
     println!("Inorder: ");
     tree_node.in_order();
