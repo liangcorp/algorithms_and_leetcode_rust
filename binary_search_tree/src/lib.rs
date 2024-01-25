@@ -1,6 +1,8 @@
 mod print;
 
+use std::cell::RefCell;
 use std::cmp::Ordering;
+use std::rc::Rc;
 
 #[derive(Debug)]
 pub struct Node {
@@ -9,7 +11,7 @@ pub struct Node {
     right: Pointer,
 }
 
-type Pointer = Option<Box<Node>>;
+type Pointer = Option<Rc<RefCell<Node>>>;
 
 impl Node {
     pub fn new(data: i32) -> Node {
@@ -22,16 +24,16 @@ impl Node {
 
     pub fn insert(&mut self, data: i32) {
         match data.cmp(&self.data) {
-            Ordering::Less => match self.left.as_mut() {
-                Some(left) => left.insert(data),
+            Ordering::Less => match &self.left {
+                Some(left) => (**left).borrow_mut().insert(data),
                 None => {
-                    self.left = Some(Box::new(Node::new(data)));
+                    self.left = Some(Rc::new(RefCell::new(Node::new(data))));
                 }
             },
-            Ordering::Greater => match self.right.as_mut() {
-                Some(left) => left.insert(data),
+            Ordering::Greater => match &self.right {
+                Some(left) => (**left).borrow_mut().insert(data),
                 None => {
-                    self.right = Some(Box::new(Node::new(data)));
+                    self.right = Some(Rc::new(RefCell::new(Node::new(data))));
                 }
             },
             Ordering::Equal => (),
@@ -39,13 +41,13 @@ impl Node {
     }
 
     pub fn tree_height(&self) -> i32 {
-        let l_depth = match self.left.as_ref() {
-            Some(left) => left.tree_height(),
+        let l_depth = match &self.left {
+            Some(left) => left.borrow().tree_height(),
             None => 0,
         };
 
-        let r_depth = match self.right.as_ref() {
-            Some(right) => right.tree_height(),
+        let r_depth = match &self.right {
+            Some(right) => right.borrow().tree_height(),
             None => 0,
         };
 
@@ -57,13 +59,13 @@ impl Node {
     }
 
     pub fn node_count(&self) -> i32 {
-        let l_node_count = match self.left.as_ref() {
-            Some(left) => left.node_count(),
+        let l_node_count = match &self.left {
+            Some(left) => left.borrow().node_count(),
             None => 0,
         };
 
-        let r_node_count = match self.right.as_ref() {
-            Some(right) => right.node_count(),
+        let r_node_count = match &self.right {
+            Some(right) => right.borrow().node_count(),
             None => 0,
         };
 
@@ -71,8 +73,8 @@ impl Node {
     }
 
     pub fn min_value(&self) -> i32 {
-        match self.left.as_ref() {
-            Some(left) => left.min_value(),
+        match &self.left {
+            Some(left) => left.borrow().min_value(),
             None => self.data,
         }
     }
@@ -80,7 +82,7 @@ impl Node {
     // DONE: Node to be deleted is the leaf node:
     //  Its simple you can just null it out.
     //
-    // @TODO: Node to be deleted has one child:
+    // DONE Node to be deleted has one child:
     //  You can just replace the node with the child node.
     //
     // @TODO: Node to be deleted has two child:
@@ -99,60 +101,59 @@ impl Node {
         // Taking a break from borrow checker hell
         match data.cmp(&self.data) {
             Ordering::Less => {
-                if let Some(left) = self.left.as_mut() {
-                    if left.as_mut().data == data
-                        && left.as_mut().left.is_none()
-                        && left.as_mut().right.is_none()
-                    {
-                        self.left = None;
+                if let Some(left) = &self.left {
+                    if (**left).borrow_mut().data == data {
+                        if (**left).borrow_mut().left.is_none()
+                            && (**left).borrow_mut().right.is_none()
+                        {
+                            // println!("Delete left leaf node");
+                            self.left = None;
+                        } else if (**left).borrow_mut().left.is_some()
+                            && (**left).borrow_mut().right.is_none()
+                        {
+                            let temp = (**left).borrow_mut().left.clone();
+                            // println!("Debug left left: {:?}", temp);
+                            self.left = temp;
+                        } else if (**left).borrow_mut().left.is_none()
+                            && (**left).borrow_mut().right.is_some()
+                        {
+                            let temp = (**left).borrow_mut().right.clone();
+                            // println!("Debug left right: {:?}", temp);
+                            self.left = temp;
+                        }
                     } else {
-                        left.delete(data);
-                    }
-                }
-
-                if let Some(right) = self.right.as_mut() {
-                    if right.as_mut().data == data
-                        && right.as_mut().left.is_none()
-                        && right.as_mut().right.is_none()
-                    {
-                        self.right = None;
-                    } else {
-                        right.delete(data);
+                        (**left).borrow_mut().delete(data);
                     }
                 }
             }
             Ordering::Greater => {
-                if let Some(left) = self.left.as_mut() {
-                    if left.as_mut().data == data
-                        && left.as_mut().left.is_none()
-                        && left.as_mut().right.is_none()
-                    {
-                        println!("{}", left.as_mut().data);
-                        self.left = None;
+                if let Some(right) = &self.right {
+                    if (**right).borrow_mut().data == data {
+                        if (**right).borrow_mut().left.is_none()
+                            && (**right).borrow_mut().right.is_none()
+                        {
+                            // println!("Delete right leaf node");
+                            self.right = None;
+                        } else if (**right).borrow_mut().left.is_some()
+                            && (**right).borrow_mut().right.is_none()
+                        {
+                            let temp = (**right).borrow_mut().left.clone();
+                            // println!("Debug right left: {:?}", temp);
+                            self.right = temp;
+                        } else if (**right).borrow_mut().left.is_none()
+                            && (**right).borrow_mut().right.is_some()
+                        {
+                            let temp = (**right).borrow_mut().right.clone();
+                            // println!("Debug right right: {:?}", temp);
+                            self.right = temp;
+                        }
                     } else {
-                        left.delete(data);
-                    }
-                }
-
-                if let Some(right) = self.right.as_mut() {
-                    if right.as_mut().data == data
-                        && right.as_mut().left.is_none()
-                        && right.as_mut().right.is_none()
-                    {
-                        self.right = None;
-                    } else {
-                        right.delete(data);
+                        (**right).borrow_mut().delete(data);
                     }
                 }
             }
 
-            Ordering::Equal => {
-                if self.left.is_some() && self.right.is_none() {
-                    self.left = None;
-                } else if self.left.is_none() && self.right.is_some() {
-                    self.right = None;
-                }
-            }
+            Ordering::Equal => {}
         }
     }
 }

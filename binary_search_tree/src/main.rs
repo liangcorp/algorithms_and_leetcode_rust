@@ -13,9 +13,7 @@ fn main() {
     tree_node.insert(40);
     tree_node.insert(70);
     tree_node.insert(60);
-    tree_node.insert(80);
-
-    // println!("{:?}", tree);
+    // tree_node.insert(80);
 
     println!("Inorder: ");
     tree_node.in_order();
@@ -55,7 +53,7 @@ fn main() {
     tree_node.only_left();
 
     println!("Delete");
-    tree_node.delete(80);
+    tree_node.delete(70);
     tree_node.in_order();
     println!();
 }
