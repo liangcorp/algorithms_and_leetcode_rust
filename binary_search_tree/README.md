@@ -1,3 +1,3 @@
-# Delete Node
+# Binary Search Tree
 
-Deleting node is still a problem in Rust. Code is in borrow checker hell.
+Implementation without using `unsafe`
