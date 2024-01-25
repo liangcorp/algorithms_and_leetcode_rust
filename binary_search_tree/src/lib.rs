@@ -1,5 +1,6 @@
 mod print;
 
+use std::borrow::BorrowMut;
 use std::cell::RefCell;
 use std::cmp::Ordering;
 use std::rc::Rc;
@@ -72,6 +73,17 @@ impl Node {
         l_node_count + r_node_count + 1
     }
 
+    pub fn max_left(&self) -> i32 {
+        if self.left.is_some() || self.right.is_some() {
+            match &self.right {
+                Some(right) => right.borrow().max_left(),
+                None => self.data,
+            }
+        } else {
+            self.data
+        }
+    }
+
     pub fn min_value(&self) -> i32 {
         match &self.left {
             Some(left) => left.borrow().min_value(),
@@ -122,11 +134,6 @@ impl Node {
                             let temp = (**left).borrow_mut().right.clone();
                             println!("Debug left right: {:?}", temp);
                             self.left = temp;
-                        } else if (**left).borrow_mut().left.is_some()
-                            && (**left).borrow_mut().right.is_some()
-                        {
-                            println!("same left");
-                            todo!()
                         } else {
                             println!("delete left");
                             (**left).borrow_mut().delete(data);
@@ -159,11 +166,6 @@ impl Node {
                             let temp = (**right).borrow_mut().right.clone();
                             println!("Debug right right: {:?}", temp);
                             self.right = temp;
-                        } else if (**right).borrow_mut().left.is_some()
-                            && (**right).borrow_mut().right.is_some()
-                        {
-                            println!("same right");
-                            todo!()
                         } else {
                             println!("delete right");
                             (**right).borrow_mut().delete(data);
@@ -176,8 +178,12 @@ impl Node {
             }
             Ordering::Equal => {
                 println!("Delete equal node");
-                let min_value = self.min_value();
-                self.data = min_value;
+                let max_left_value = self.max_left();
+                self.data = max_left_value;
+                if let Some(left) = &self.left {
+                    println!("delete max left");
+                    (**left).borrow_mut().delete(max_left_value);
+                }
             }
         }
     }
