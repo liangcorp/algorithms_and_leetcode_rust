@@ -102,58 +102,73 @@ impl Node {
         match data.cmp(&self.data) {
             Ordering::Less => {
                 if let Some(left) = &self.left {
+                    println!("Debug left");
                     if (**left).borrow_mut().data == data {
+                        println!("Found left");
                         if (**left).borrow_mut().left.is_none()
                             && (**left).borrow_mut().right.is_none()
                         {
-                            // println!("Delete left leaf node");
+                            println!("Delete left leaf node");
                             self.left = None;
                         } else if (**left).borrow_mut().left.is_some()
                             && (**left).borrow_mut().right.is_none()
                         {
                             let temp = (**left).borrow_mut().left.clone();
-                            // println!("Debug left left: {:?}", temp);
+                            println!("Debug left left: {:?}", temp);
                             self.left = temp;
                         } else if (**left).borrow_mut().left.is_none()
                             && (**left).borrow_mut().right.is_some()
                         {
                             let temp = (**left).borrow_mut().right.clone();
-                            // println!("Debug left right: {:?}", temp);
+                            println!("Debug left right: {:?}", temp);
                             self.left = temp;
+                        } else {
+                            println!("delete left");
+                            (**left).borrow_mut().delete(data);
                         }
                     } else {
+                        println!("delete leftward");
                         (**left).borrow_mut().delete(data);
                     }
                 }
             }
             Ordering::Greater => {
                 if let Some(right) = &self.right {
+                    println!("Debug right");
                     if (**right).borrow_mut().data == data {
+                        println!("Found right");
                         if (**right).borrow_mut().left.is_none()
                             && (**right).borrow_mut().right.is_none()
                         {
-                            // println!("Delete right leaf node");
+                            println!("Delete right leaf node");
                             self.right = None;
                         } else if (**right).borrow_mut().left.is_some()
                             && (**right).borrow_mut().right.is_none()
                         {
                             let temp = (**right).borrow_mut().left.clone();
-                            // println!("Debug right left: {:?}", temp);
+                            println!("Debug right left: {:?}", temp);
                             self.right = temp;
                         } else if (**right).borrow_mut().left.is_none()
                             && (**right).borrow_mut().right.is_some()
                         {
                             let temp = (**right).borrow_mut().right.clone();
-                            // println!("Debug right right: {:?}", temp);
+                            println!("Debug right right: {:?}", temp);
                             self.right = temp;
+                        } else {
+                            println!("delete right");
+                            (**right).borrow_mut().delete(data);
                         }
                     } else {
+                        println!("delete leftward");
                         (**right).borrow_mut().delete(data);
                     }
                 }
             }
-
-            Ordering::Equal => {}
+            Ordering::Equal => {
+                println!("Delete equal node");
+                let min_value = self.min_value();
+                self.data = min_value;
+            }
         }
     }
 }
