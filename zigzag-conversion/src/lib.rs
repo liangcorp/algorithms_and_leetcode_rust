@@ -27,7 +27,7 @@ pub mod zigzag {
         string_chucks.push(&s[slice_start as usize..]);
 
         for i in 0..num_rows {
-            for (j, s_chuck) in string_chucks.iter().enumerate() {
+            for (_, s_chuck) in string_chucks.iter().enumerate() {
                 if i == 0 {
                     // add top characters of the string chucks to the vector
                     new_s.push(s_chuck.chars().next().unwrap());
@@ -51,7 +51,7 @@ pub mod zigzag {
                 }
             }
         }
-        String::from_iter(new_s)
+        new_s.iter().collect::<String>()
     }
 
     #[cfg(test)]
@@ -69,6 +69,13 @@ pub mod zigzag {
             use super::*;
 
             assert_eq!("PINALSIGYAHRPI", convert(String::from("PAYPALISHIRING"), 4));
+        }
+
+        #[test]
+        fn test_convert_two_char() {
+            use super::*;
+
+            assert_eq!("AB", convert(String::from("AB"), 2));
         }
 
         #[test]
