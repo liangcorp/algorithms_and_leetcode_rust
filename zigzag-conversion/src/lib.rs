@@ -7,8 +7,6 @@ pub mod zigzag {
     // Push the first element into new_s
     // Push the head and tail of the rest of the chucks
     // into the new_s
-    #[allow(unused_mut)]
-    #[allow(unused_variables)]
     pub fn convert(s: String, num_rows: i32) -> String {
         let mut new_s: Vec<char> = vec![];
         let mut slice_start = 0;
