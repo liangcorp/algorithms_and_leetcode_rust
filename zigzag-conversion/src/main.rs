@@ -1,4 +1,4 @@
-use zigzag_conversion::zigzag;
+pub mod zigzag;
 
 fn main() {
     println!(
