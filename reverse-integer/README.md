@@ -24,4 +24,4 @@ If reversing `x` causes the value to go outside the signed
 
 ## Constraints
 
-- -2<sup>31</sup> <= x <= $2^31$ - 1
+- -2<sup>31</sup> <= x <= 2<sup>31</sup> - 1
