@@ -2,7 +2,7 @@ pub mod zigzag;
 
 #[cfg(test)]
 mod tests {
-    use crate::zigzag::brute::convert;
+    use crate::zigzag::calculate::convert;
 
     #[test]
     fn test_convert_3_row() {
