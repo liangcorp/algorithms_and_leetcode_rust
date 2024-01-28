@@ -10,17 +10,19 @@
 ///  - rest of the strings's head and tail are pushed into the new string
 ///     - (string index + num_rows index) % distance == 0
 pub fn convert(s: String, num_rows: i32) -> String {
-    let mut new_s = String::new();
-    let distance = num_rows + num_rows - 2;
-
     if num_rows == 1 {
         return s;
     }
 
+    let mut new_s = String::new();
+    let distance = num_rows + num_rows - 2;
+
     for i in 0..num_rows {
-        for (j, c) in s.chars().enumerate() {
+        for j in i as usize..s.len() {
             if (j as i32) % distance == i || (j as i32 + i) % distance == 0 {
-                new_s.push(c);
+                if let Some(c) = s.chars().nth(j) {
+                    new_s.push(c);
+                }
             }
         }
     }
