@@ -17,24 +17,25 @@ pub fn convert(s: String, num_rows: i32) -> String {
 
     let mut new_s = String::new();
     let distance = (num_rows * 2 - 2) as usize;
-    let mut head_index: usize;  // head of string chuck without [0]
-    let mut tail_index: usize;  // tail of string chuck
+    let mut head_index: usize; // head of string chuck without [0]
+    let mut tail_index: usize; // tail of string chuck
 
-    for i in 0..num_rows as usize {
-        head_index = i;
+    for row_no in 0..num_rows as usize {
+        head_index = row_no;
 
         while head_index < s.len() {
+            // Push head of the string chuck
             if let Some(c) = s.chars().nth(head_index) {
                 new_s.push(c);
             }
-            if i > 0 && i < num_rows as usize - 1 {
-                tail_index = head_index + distance - 2 * i;
+            if row_no > 0 && row_no < num_rows as usize - 1 {
+                tail_index = head_index + distance - row_no * 2;
 
-                if let Some(c) = s.chars().nth(head_index) {
-                    new_s.push(c);
-                }
-                if let Some(c) = s.chars().nth(tail_index) {
-                    new_s.push(c);
+                // push the tail of the string chuck
+                if tail_index < s.len() {
+                    if let Some(c) = s.chars().nth(tail_index) {
+                        new_s.push(c);
+                    }
                 }
             }
             head_index += distance;
