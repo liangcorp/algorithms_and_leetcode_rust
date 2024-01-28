@@ -30,7 +30,9 @@ pub fn convert(s: String, num_rows: i32) -> String {
             if i == 0 {
                 // add top characters of the string chucks to
                 // the vector
-                new_s.push(s_chuck.chars().next().unwrap());
+                if let Some(c) = s_chuck.chars().next() {
+                    new_s.push(c);
+                }
             } else if i == num_rows - 1 {
                 // if reach center of string chuck
                 // or the length of string chuck is less than
