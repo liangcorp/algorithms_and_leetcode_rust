@@ -38,6 +38,8 @@ pub fn convert(s: String, num_rows: i32) -> String {
                     }
                 }
             }
+            // Speeds up the solution by moving forward
+            // by `distance`
             head_index += distance;
         }
     }
