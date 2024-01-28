@@ -21,6 +21,8 @@ pub fn convert(s: String, num_rows: i32) -> String {
         slice_start = slice_end;
         slice_end += distance;
     }
+
+    // File the shorter string with '#' to make it even
     let filer_str = "#".repeat(distance as usize - s[slice_start as usize..].len());
     let temp = format!("{}{}", &s[slice_start as usize..], &filer_str);
     str_chucks.push(&temp);
