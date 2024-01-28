@@ -5,7 +5,7 @@
 // Push the head and tail of the rest of the chucks
 // into the new_s
 pub fn convert(s: String, num_rows: i32) -> String {
-    let mut new_s: Vec<char> = vec![];
+    let mut new_s = String::new();
     let mut slice_start = 0;
     let mut slice_end = num_rows + num_rows - 2;
     let distance = num_rows + num_rows - 2;
@@ -60,5 +60,5 @@ pub fn convert(s: String, num_rows: i32) -> String {
             }
         }
     }
-    new_s.iter().collect::<String>()
+    new_s
 }
