@@ -1,3 +1,7 @@
+use palindrome_number::is_palindrome;
+
 fn main() {
-    println!("Hello, world!");
+    is_palindrome(121);
+    println!("debug");
+    println!("{:?}", is_palindrome(120));
 }
