@@ -1,23 +1,23 @@
 pub fn is_palindrome(x: i32) -> bool {
-    if x < 0 {
-        return false;
-    } else if x == 0 {
-        return true;
+    match x.cmp(&0) {
+        std::cmp::Ordering::Equal => return true,
+        std::cmp::Ordering::Less => return false,
+        std::cmp::Ordering::Greater => (),
     }
 
     let length = ((x as f32).log10() + 1_f32) as i32;
-    let mut num_vec: Vec<i32> = vec![];
     let mut x_num = x;
+    let mut x_num2 = x;
 
-    for _ in 0..length {
-        num_vec.push(x_num % 10);
-        x_num /= 10;
-    }
-
-    for i in 0..length as usize {
-        if num_vec[i] != num_vec[length as usize - 1 - i] {
+    for i in 0..length {
+        if x_num % 10 != x_num2 / 10_i32.pow((length - i - 1) as u32) {
             return false;
         }
+
+        x_num /= 10;
+
+        x_num2 -= x_num2 / 10_i32.pow((length - i - 1) as u32) * 10_i32.pow((length - i - 1) as u32);
+
     }
 
     true
