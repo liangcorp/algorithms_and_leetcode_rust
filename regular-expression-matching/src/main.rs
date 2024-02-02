@@ -1,5 +1,5 @@
-// use regular_expression_matching::is_match;
+use regular_expression_matching::is_match;
 
 fn main() {
-    println!("Hello, world!");
+    is_match(String::from("aa"), String::from(".*"));
 }
