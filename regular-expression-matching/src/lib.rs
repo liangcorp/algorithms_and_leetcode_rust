@@ -1,30 +1,17 @@
 pub fn is_match(s: String, p: String) -> bool {
-    if !p.contains('.') && !p.contains('*') && s.len() != p.len() {
-        false
-    } else if p.contains('.') && !p.contains('*') {
-        if s.is_empty() && p.is_empty() {
-            return true;
-        }
+    if p.is_empty() {
+        return s.is_empty();
+    }
 
-        if s.chars().next() == p.chars().next() || p.starts_with('.') {
-            is_match(s.as_str()[1..].to_string(), p.as_str()[1..].to_string());
-        }
+    let is_first_match =
+        !s.is_empty() && (s.chars().next() == p.chars().next() || p.starts_with('.'));
 
-        true
+    if p.len() >= 2 && p.chars().nth(1).unwrap() == '*' {
+        return is_match(s.clone(), p.as_str()[2..].to_string())
+            || (is_first_match && is_match(s.as_str()[1..].to_string(), p));
     } else {
-        if s.is_empty() && p.is_empty() {
-            return true;
-        }
-        if let Some(c) = p.chars().nth(1) {
-            if (c == '*' && s.chars().next() == p.chars().next())
-                || (c == '*' && p.starts_with('.'))
-            {
-                return true;
-            } else {
-                is_match(s.as_str()[1..].to_string(), p.as_str()[2..].to_string());
-            }
-        }
-        false
+        return is_first_match
+            && is_match(s.as_str()[1..].to_string(), p.as_str()[1..].to_string());
     }
 }
 
@@ -60,5 +47,21 @@ mod tests {
     #[test]
     fn test_is_match_4() {
         assert!(is_match(String::from("aab"), String::from("c*a*b")));
+    }
+
+    #[test]
+    fn test_is_match_mississippi() {
+        assert!(!is_match(
+            String::from("mississippi"),
+            String::from("mis*is*p*.")
+        ));
+    }
+
+    #[test]
+    fn test_is_match_aaaaaaaaaaaaaaaaaaab() {
+        assert!(!is_match(
+            String::from("aaaaaaaaaaaaaaaaaaab"),
+            String::from("a*a*a*a*a*a*a*a*a*a*")
+        ));
     }
 }
