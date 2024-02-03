@@ -1,10 +1,11 @@
 pub mod brute;
 pub mod cache;
+pub mod vector;
 
 #[cfg(test)]
 mod tests {
     // use crate::brute;
-    use crate::cache::is_match;
+    use crate::vector::is_match;
 
     #[test]
     fn test_is_match_1() {
