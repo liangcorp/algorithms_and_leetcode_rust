@@ -1,26 +1,22 @@
 pub fn is_match(s: String, p: String) -> bool {
-    let mut p_vec: Vec<char> = vec![];
+    // let mut p_vec: Vec<char> = vec![];
 
-    for (i, c) in p.chars().enumerate() {
-        match &c {
-            '.' => {
-                if i == 0 {
-                    if let Some(t) = s.chars().next() {
-                        p_vec.push(t);
-                    }
-                } else if let Some(t) = p.chars().nth(i - 1) {
-                    p_vec.push(t);
-                }
-            }
-            '*' => {
-                let mut s_vec: Vec<char> = s.as_str()[i..].to_string().chars().collect();
-                p_vec.append(&mut s_vec);
-            }
-            _ => p_vec.push(c),
-        }
+    // let mut s_i = 0;
+    // let mut p_i = 0;
+
+    if s.chars().next() == p.chars().next() || p.starts_with('*') {
+        is_match(s.as_str()[1..].to_string(), p.as_str()[1..].to_string());
+    } else if p.starts_with('*') {
+        is_match(
+            s.as_str()[2..].to_string(),
+            p.as_str()[2..].to_string(),
+        );
+    } else {
+        return false;
     }
 
-    s == String::from_iter(p_vec)
+    // s == String::from_iter(p_vec)
+    true
 }
 
 #[cfg(test)]
