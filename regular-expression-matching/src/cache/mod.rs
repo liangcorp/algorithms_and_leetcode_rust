@@ -13,7 +13,9 @@ pub fn match_string(
     map: &mut HashMap<(usize, usize), bool>,
 ) -> bool {
     if map.contains_key(&(i, j)) {
-        return *map.get(&(i, j)).unwrap();
+        if let Some(&result) = map.get(&(i, j)) {
+            return result;
+        }
     }
 
     if i >= s.len() && j >= p.len() {
@@ -23,21 +25,27 @@ pub fn match_string(
         return false;
     }
 
-    let m = i < s.len()
+    let is_char_match = i < s.len()
         && (s.chars().nth(i).unwrap() == p.chars().nth(j).unwrap()
             || p.chars().nth(j).unwrap() == '.');
 
     if j + 1 < p.len() && p.chars().nth(j + 1).unwrap() == '*' {
         let calculated_val = match_string(s, p, i, j + 2, map)
-            || (m && match_string(s, p, i + 1, j, map));
+            || (is_char_match && match_string(s, p, i + 1, j, map));
         map.insert((i, j), calculated_val);
-        return *map.get(&(i, j)).unwrap();
+
+        if let Some(&result) = map.get(&(i, j)) {
+            return result;
+        }
     }
 
-    if m {
+    if is_char_match {
         let calculated_val = match_string(s, p, i + 1, j + 1, map);
         map.insert((i, j), calculated_val);
-        return *map.get(&(i, j)).unwrap();
+
+        if let Some(&result) = map.get(&(i, j)) {
+            return result;
+        }
     }
 
     false
