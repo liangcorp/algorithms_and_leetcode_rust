@@ -21,6 +21,7 @@ pub fn match_string(
     if i >= s.len() && j >= p.len() {
         return true;
     }
+
     if j >= p.len() {
         return false;
     }
@@ -32,6 +33,7 @@ pub fn match_string(
     if j + 1 < p.len() && p.chars().nth(j + 1).unwrap() == '*' {
         let calculated_val = match_string(s, p, i, j + 2, map)
             || (is_char_match && match_string(s, p, i + 1, j, map));
+
         map.insert((i, j), calculated_val);
 
         if let Some(&result) = map.get(&(i, j)) {
@@ -41,6 +43,7 @@ pub fn match_string(
 
     if is_char_match {
         let calculated_val = match_string(s, p, i + 1, j + 1, map);
+
         map.insert((i, j), calculated_val);
 
         if let Some(&result) = map.get(&(i, j)) {
