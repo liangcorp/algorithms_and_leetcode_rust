@@ -5,7 +5,7 @@ pub mod vector;
 #[cfg(test)]
 mod tests {
     // use crate::brute;
-    use crate::vector::is_match;
+    use crate::cache::is_match;
 
     #[test]
     fn test_is_match_1() {
