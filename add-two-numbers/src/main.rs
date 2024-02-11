@@ -46,7 +46,6 @@ pub fn add_two_numbers(
     l2: Option<Box<ListNode>>,
 ) -> Option<Box<ListNode>> {
     let mut sum;
-    let mut left_over;
     let mut carry_over = 0;
 
     let mut l1_next_node = l1.as_ref().unwrap();
@@ -58,33 +57,30 @@ pub fn add_two_numbers(
     let mut l1_val;
     let mut l2_val;
 
-    l1_val = l1_next_node.val;
-    l2_val = l2_next_node.val;
-
     loop {
-        sum = l1_val + l2_val + carry_over;
-
-        if sum > 9 {
-            left_over = sum % 10;
-            result_node.val = left_over;
-            carry_over = 1;
-        } else {
-            result_node.val = sum;
-            carry_over = 0;
-        }
-
-        if l1_next_node.next.is_none() && l2_next_node.next.is_none() && carry_over != 1{
-            break;
-        }
-
         match l1_next_node.next.as_ref() {
-            Some(p) => { l1_next_node = p; l1_val = l1_next_node.val },
+            Some(p) => {
+                l1_next_node = p;
+                l1_val = l1_next_node.val
+            }
             None => l1_val = 0,
         }
 
         match l2_next_node.next.as_ref() {
-            Some(p) => { l2_next_node = p; l2_val = l2_next_node.val },
+            Some(p) => {
+                l2_next_node = p;
+                l2_val = l2_next_node.val
+            }
             None => l2_val = 0,
+        }
+
+        sum = l1_val + l2_val + carry_over;
+
+        carry_over = sum / 10;
+        result_node.val = sum % 10;
+
+        if l1_next_node.next.is_none() && l2_next_node.next.is_none() && carry_over != 1 {
+            break;
         }
 
         result_node.next = Some(Box::new(ListNode::new(0)));
@@ -113,5 +109,7 @@ fn main() {
 
     // l2.display_list();
     //
-    add_two_numbers(Some(Box::new(l1)), Some(Box::new(l2))).unwrap().display_list();
+    add_two_numbers(Some(Box::new(l1)), Some(Box::new(l2)))
+        .unwrap()
+        .display_list();
 }
