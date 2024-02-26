@@ -8,7 +8,7 @@ fn longest_common_subsequence(a: &str, b: &str) -> String {
     // solution[i][j] is he lengths of the LCS
     // between a[0..i-1] and b[0..j-1]
     //
-    let mut solution = vec![vec![0; len_b]; len_a + 1];
+    let mut solution = vec![vec![0; len_b + 1]; len_a + 1];
 
     for (i, mi) in a.iter().enumerate() {
         for (j, mj) in b.iter().enumerate() {
