@@ -24,7 +24,7 @@ fn longest_common_subsequence(a: &str, b: &str) -> String {
     }
 
     // reconsitute the solution from the lengths
-    let mut result: Vec<char> = Vec::new();
+    let mut result: Vec<char> = vec![];
     let (mut i, mut j) = (len_a, len_b);
 
     while i > 0 && j > 0 {
