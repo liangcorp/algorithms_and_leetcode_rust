@@ -32,7 +32,7 @@ pub trait Graph {
 
         self.adjacency_matrix()
             .entry(edge.0.to_string())
-            .add_modify(|e| e.push((edge.1.to_string(), edge.2)));
+            .and_modify(|e| e.push((edge.1.to_string(), edge.2)));
     }
 
     fn neighbors(&mut self, node: &str) -> Result<&Vec<(String, i32)>, NodeNotInGraph> {
