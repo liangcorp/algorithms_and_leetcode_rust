@@ -68,3 +68,24 @@ impl From<(u8, u8)> for Edge {
         Edge(item.0, item.1)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_dfs() {
+        let vertices = vec![1, 2, 3, 4, 5, 6, 7];
+
+        let edges = vec![(1, 2), (1, 3), (2, 4), (2, 5), (3,6), (3,7)];
+
+        let root = 1;
+        let objective = 7;
+
+        let correct = vec![1,2 ,4, 5, 3, 6,7];
+
+        let graph = Graph::new(vertices.into_iter().map(|v| v.into()).collect(), edges.into_iter().map(|e| e.into()).collect());
+
+        assert_eq!(depth_first_search(&graph, root.into(), objective.into()), Some(correct));
+    }
+}
