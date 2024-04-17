@@ -4,16 +4,22 @@ fn max_area(height: Vec<i32>) -> i32 {
     let mut used_height;
 
     for (i, element) in height.iter().enumerate() {
-        if *element > height[height.len() - i - 1] {
-            used_height = height[height.len() - i - 1];
-        } else {
-            used_height = *element;
+        if i >= height.len() / 2 {
+            return max;
         }
 
-        let temp = used_height * (height.len() - i - 1) as i32;
+        for rev_el in height.iter().rev() {
+            if *element > *rev_el {
+                used_height = *rev_el;
+            } else {
+                used_height = *element;
+            }
 
-        if max < temp {
-            max = temp;
+            let temp = used_height * (height.len() - i - 1) as i32;
+
+            if max < temp {
+                max = temp;
+            }
         }
     }
 
