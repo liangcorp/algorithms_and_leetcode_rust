@@ -10,8 +10,8 @@ fn max_area(height: Vec<i32>) -> i32 {
             } else {
                 chosen_h = *other_h;
             }
-            if max < (j as i32 - i as i32) * chosen_h {
-                max = (j as i32 - i as i32) * chosen_h;
+            if max < (j - i) as i32 * chosen_h {
+                max = (j - i) as i32 * chosen_h;
             }
         }
     }
