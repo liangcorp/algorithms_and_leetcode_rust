@@ -1,28 +1,20 @@
 #[allow(dead_code)]
 fn max_area(height: Vec<i32>) -> i32 {
     let mut max: i32 = 0;
-    let mut used_height;
+    let mut chosen_h: i32;
 
-    for (i, element) in height.iter().enumerate() {
-        if i >= height.len() / 2 {
-            return max;
-        }
-
-        for rev_el in height.iter().rev() {
-            if *element > *rev_el {
-                used_height = *rev_el;
+    for (i, h) in height.iter().enumerate() {
+        for (j, other_h) in height.iter().enumerate().skip(i) {
+            if h < other_h {
+                chosen_h = *h;
             } else {
-                used_height = *element;
+                chosen_h = *other_h;
             }
-
-            let temp = used_height * (height.len() - i - 1) as i32;
-
-            if max < temp {
-                max = temp;
+            if max < (j as i32 - i as i32) * chosen_h {
+                max = (j as i32 - i as i32) * chosen_h;
             }
         }
     }
-
     max
 }
 
