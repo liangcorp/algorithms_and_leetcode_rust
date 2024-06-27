@@ -1,20 +1,27 @@
 #[allow(dead_code)]
 fn max_area(height: Vec<i32>) -> i32 {
     let mut max: i32 = 0;
-    let mut chosen_h: i32;
+    let mut l_edge: i32 = height[0];
+    let mut l_pos: usize = 0;
+    let mut r_edge: i32 = height[height.len() - 1];
+    let mut r_pos: usize = height.len() - 1;
 
-    for (i, h) in height.iter().enumerate() {
-        for (j, other_h) in height.iter().enumerate().skip(i) {
-            if h < other_h {
-                chosen_h = *h;
-            } else {
-                chosen_h = *other_h;
+    while l_pos != r_pos {
+        if l_edge < r_edge {
+            if max < l_edge * (r_pos - l_pos) as i32 {
+                max = l_edge * (r_pos - l_pos) as i32;
             }
-            if max < (j - i) as i32 * chosen_h {
-                max = (j - i) as i32 * chosen_h;
+            l_edge = height[l_pos + 1];
+            l_pos += 1;
+        } else {
+            if max < r_edge * (r_pos - l_pos) as i32 {
+                max = r_edge * (r_pos - l_pos) as i32;
             }
+            r_edge = height[r_pos - 1];
+            r_pos -= 1;
         }
     }
+
     max
 }
 
