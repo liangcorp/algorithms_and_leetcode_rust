@@ -20,6 +20,10 @@ pub fn longest_common_prefix(strs: Vec<String>) -> String {
         }
 
         lcp.drain(flush_pos..);
+
+        if lcp.len() == 0 {
+            return String::from("");
+        }
     }
 
     String::from_iter(lcp.iter())
